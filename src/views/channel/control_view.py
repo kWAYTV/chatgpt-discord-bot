@@ -13,11 +13,7 @@ class ControlView(discord.ui.View):
 
     @discord.ui.button(label='💬 Text Prompt', style=discord.ButtonStyle.green, custom_id='control:text_prompt')
     async def prompt_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        return await interaction.response.send_modal(PromptModal(mode='text'))
-
-    @discord.ui.button(label='🖼️ Image Prompt', style=discord.ButtonStyle.green, custom_id='control:image_prompt')
-    async def prompt_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        return await interaction.response.send_modal(PromptModal(mode='image'))
+        return await interaction.response.send_modal(PromptModal())
 
     @discord.ui.button(label='👁️ Hidden Messages', style=discord.ButtonStyle.blurple, custom_id='control:ephemeral_room')
     async def ephemeral_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):
