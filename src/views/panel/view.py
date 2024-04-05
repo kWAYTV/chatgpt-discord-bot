@@ -1,10 +1,12 @@
 import discord, uuid
+from src.helper.config import Config
 from src.views.channel.control_view import ControlView
 from src.database.schema.sessions import SessionSchema
 from src.database.controller.sessions import SessionsController
 
 class PanelView(discord.ui.View):
     def __init__(self):
+        self.config = Config()
         self.sessions = SessionsController()
         super().__init__(timeout=None)
 
@@ -24,6 +26,8 @@ class PanelView(discord.ui.View):
         await channel.set_permissions(interaction.user, read_messages=True, send_messages=True)
         await channel.set_permissions(interaction.guild.me, read_messages=True, send_messages=True)
         await channel.set_permissions(interaction.guild.default_role, read_messages=False)
+        for role_id in self.config.additional_hide_roles:
+            await channel.set_permissions(interaction.guild.get_role(role_id), read_messages=False)
 
         # Add the session to the database
         new_session = SessionSchema(owner_id=interaction.user.id, discord_channel_id=channel.id)
