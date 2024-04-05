@@ -1,4 +1,5 @@
 import nest_asyncio
+from loguru import logger
 from g4f.client import Client
 from src.helper.config import Config
 from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
@@ -23,10 +24,14 @@ class PromptController:
         nest_asyncio.apply()
 
     async def send_prompt(self, prompt: str) -> str:
-        response = self.client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-        )
-        return response.choices[0].message.content
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+            )
+            return response.choices[0].message.content
+        except Exception:
+            logger.error('An error occurred while sending the prompt.')
+            return None
