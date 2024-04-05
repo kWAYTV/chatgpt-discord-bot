@@ -20,8 +20,10 @@ class PanelView(discord.ui.View):
 
         # Create a new private channel
         channel = await interaction.guild.create_text_channel(f"room-{uuid.uuid4()}", category=interaction.channel.category)
+
         await channel.set_permissions(interaction.user, read_messages=True, send_messages=True)
         await channel.set_permissions(interaction.guild.me, read_messages=True, send_messages=True)
+        await channel.set_permissions(interaction.guild.default_role, read_messages=False)
 
         # Add the session to the database
         new_session = SessionSchema(owner_id=interaction.user.id, discord_channel_id=channel.id)
