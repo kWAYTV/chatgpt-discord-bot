@@ -1,7 +1,7 @@
-aiosqlite
-loguru
-pyfiglet
-pystyle
-PyYAML
-g4f
-nest_asyncio
+aiosqlite==0.20.0
+g4f==0.2.7.2
+loguru==0.6.0
+nest_asyncio==1.6.0
+pyfiglet==0.8.post1
+pystyle==2.9
+PyYAML==6.0.1
