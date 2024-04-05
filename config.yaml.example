@@ -1,0 +1,16 @@
+# [APP]
+app_logo: 
+app_name: 
+app_url: 
+app_version: 
+log_file: 
+
+# [BOT]
+bot_prefix: 
+bot_token: 
+chat_category: 
+dev_guild_id: 
+logs_channel: 
+
+# [AI]
+api_endpoint: 

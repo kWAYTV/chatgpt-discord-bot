@@ -1,0 +1,6 @@
+aiosqlite
+loguru
+pyfiglet
+pystyle
+PyYAML
+g4f
