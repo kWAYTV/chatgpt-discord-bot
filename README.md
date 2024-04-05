@@ -43,14 +43,14 @@ Don't use quotes or double quotes in the values of the configuration file.
 app_logo: # String, URL to the app logo
 app_name: # String, Name of the app
 app_url: # String, URL to the app
-app_version: # String, Version of the app
+app_version: # Number, Version of the app
 log_file: # String, Path to the log file (Example: ai_bot.log)
 
 # [BOT]
 bot_prefix: # String, Prefix for the bot
 bot_token: # String, Token of the bot
-chat_category: # String, Category ID for the chat channels to be created
-dev_guild_id: # String, Guild ID for the development guild
+chat_category: # Integer, Category ID for the chat channels to be created
+dev_guild_id: # Integer, Guild ID for the development guild
 ```
 
 ## To-Do
