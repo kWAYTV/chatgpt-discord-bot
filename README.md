@@ -7,6 +7,7 @@
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Configuration](#configuration)
+  - [To-Do](#to-do)
   - [License](#license)
   - [Contributing](#contributing)
 
@@ -51,6 +52,10 @@ bot_token: # String, Token of the bot
 chat_category: # String, Category ID for the chat channels to be created
 dev_guild_id: # String, Guild ID for the development guild
 ```
+
+## To-Do
+- [ ] Keep conversation context between room messages
+- [ ] Make the bot listen to room messages instead of pressing prompt button
 
 ## License
 This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details.
