@@ -15,14 +15,10 @@ class PromptModal(discord.ui.Modal, title='Send command to host'):
     user_prompt = discord.ui.TextInput(label='Prompt', style=discord.TextStyle.long, placeholder='Enter the prompt you want to give to the model.')
 
     async def on_submit(self, interaction: discord.Interaction):
-        session = await self.sessions.get_session(interaction.user.id)
-        if session is None:
-            return await interaction.response.send_message(f"You don't have any rooms!", ephemeral=True)
-        
-        await interaction.response.defer(ephemeral=session.ephemeral)
+        await interaction.response.defer(ephemeral=False)
 
         # Send the initial response message.
-        message = await interaction.followup.send('Please wait for an answer from the model...', ephemeral=True)
+        message = await interaction.followup.send('Please wait for an answer from the model...')
 
         # Typing indicator context manager.
         async with interaction.channel.typing():

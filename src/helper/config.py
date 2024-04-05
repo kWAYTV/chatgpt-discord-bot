@@ -32,7 +32,6 @@ class Config:
         # Discord bot
         self.bot_prefix: str = self.config["bot_prefix"]
         self.bot_token: str = self.config["bot_token"]
-        self.logs_channel: int = int(self.config["logs_channel"])
         self.chat_category: int = int(self.config["chat_category"])
         self.dev_guild_id: discord.Object = discord.Object(int(self.config["dev_guild_id"]))
         self.additional_hide_roles: list = self.config["additional_hide_roles"]
