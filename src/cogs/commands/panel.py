@@ -21,7 +21,6 @@ class Panel(commands.Cog):
                 channel = interaction.channel
 
             embed_schema = EmbedSchema(
-                title="🤖 Welcome!",
                 description=f"From this panel you will be able to manage the bot.",
                 color=0xb34760
             )

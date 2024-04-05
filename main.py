@@ -20,7 +20,7 @@ class Bot(commands.Bot):
     async def setup_hook(self) -> None:
         try:
             os.system("cls||clear")
-            logger.info(f"Starting bot...")
+            logger.info(f"Setting up bot...")
 
             # Check for file inputs
             logger.debug("Checking for file inputs...")
