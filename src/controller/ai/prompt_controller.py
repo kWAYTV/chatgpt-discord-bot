@@ -30,9 +30,3 @@ class PromptController:
             prompt=prompt,
         )
         return response.data[0].url
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc, tb):
-        await self.client.aclose()

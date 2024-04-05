@@ -26,9 +26,7 @@ class PromptModal(discord.ui.Modal, title='Send command to host'):
 
         # Typing indicator context manager.
         async with interaction.channel.typing():
-            # Using PromptController in its context manager
-            async with self.prompt_controller as controller:
-                response = await controller.send_prompt(self.user_prompt.value)
+            response = await self.prompt_controller.send_prompt(self.user_prompt.value)
 
         # Handle the response accordingly.
         if response is None:
