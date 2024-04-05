@@ -14,7 +14,6 @@ class Prompt(commands.Cog):
         self.sessions = SessionsController()
         self.prompt_controller = PromptController.get_instance()
 
-    @app_commands.checks.has_permissions(administrator=True)
     @app_commands.command(name="prompt", description="Send a prompt to your room.")
     async def prompt_command(self, interaction: discord.Interaction):
         try:
