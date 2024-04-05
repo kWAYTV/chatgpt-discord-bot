@@ -1,5 +1,5 @@
 aiosqlite==0.20.0
-g4f==0.2.7.2
+g4f==0.2.7.3
 loguru==0.6.0
 nest_asyncio==1.6.0
 pyfiglet==0.8.post1

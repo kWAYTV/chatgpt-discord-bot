@@ -92,10 +92,24 @@ class SessionsController:
                 logger.error(f"An error occurred while trying to get recent sessions: {e}")
                 return []
 
+    async def get_expired_sessions(self) -> None:
+        async with aiosqlite.connect(self.db_path) as db:
+            try:
+                cursor = await db.execute('''
+                    SELECT * FROM ssh_sessions WHERE last_used < datetime('now', '-30 minutes');
+                ''')
+                rows = await cursor.fetchall()
+                return [SessionSchema.deserialize(row) for row in rows]
+            except Exception as e:
+                logger.error(f"An error occurred while trying to get expired sessions: {e}")
+                return []
+
     async def delete_expired_sessions(self) -> None:
         async with aiosqlite.connect(self.db_path) as db:
             try:
-                await db.execute('DELETE FROM ssh_sessions WHERE last_used < datetime("now", "-30 minutes");')
+                await db.execute('''
+                    DELETE FROM ssh_sessions WHERE last_used < datetime('now', '-30 minutes');
+                ''')
                 await db.commit()
             except Exception as e:
                 logger.error(f"An error occurred while trying to delete expired sessions: {e}")
