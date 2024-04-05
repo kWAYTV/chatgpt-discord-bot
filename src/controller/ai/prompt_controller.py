@@ -32,6 +32,6 @@ class PromptController:
                 ],
             )
             return response.choices[0].message.content
-        except Exception:
-            logger.error('An error occurred while sending the prompt.')
+        except Exception as e:
+            logger.error(f'An error occurred while sending the prompt: {e}')
             return None
