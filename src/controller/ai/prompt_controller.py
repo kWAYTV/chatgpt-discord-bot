@@ -1,3 +1,4 @@
+import nest_asyncio
 from loguru import logger
 from g4f.client import Client
 from src.helper.config import Config
@@ -16,6 +17,7 @@ class PromptController:
             raise ValueError("An instance of PromptController already exists.")
         self.config = Config()
         self.client = Client()
+        nest_asyncio.apply()
 
     async def send_prompt(self, prompt: str) -> str:
         response = self.client.chat.completions.create(
