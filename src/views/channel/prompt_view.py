@@ -32,7 +32,7 @@ class PromptModal(discord.ui.Modal, title='Send command to host'):
         if response is None:
             return await message.edit(content='The model failed to respond. Please try again either now or later.')
 
-        await message.edit(content=f"*{self.user_prompt.value}*\n```{response}```")
+        await message.edit(content=response)
 
         # Update the session with the last used timestamp.
         session_schema = SessionSchema(owner_id=interaction.user.id, discord_channel_id=interaction.channel.id)
