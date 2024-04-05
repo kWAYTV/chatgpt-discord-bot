@@ -2,6 +2,10 @@ import nest_asyncio
 from loguru import logger
 from g4f.client import Client
 from src.helper.config import Config
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
+
+import g4f.debug
+g4f.debug.logging = True
 
 class PromptController:
     _instance = None
@@ -16,7 +20,9 @@ class PromptController:
         if self._instance is not None:
             raise ValueError("An instance of PromptController already exists.")
         self.config = Config()
-        self.client = Client()
+        self.client = Client(
+            provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False),
+        )
         nest_asyncio.apply()
 
     async def send_prompt(self, prompt: str) -> str:
@@ -27,7 +33,7 @@ class PromptController:
         return response.choices[0].message.content
 
     async def generate_image(self, prompt: str) -> str:
-        response = self.client.images.create(
+        response = self.client.images.generate(
             model="gemini",
             prompt=prompt,
         )

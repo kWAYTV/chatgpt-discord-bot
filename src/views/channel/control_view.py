@@ -11,9 +11,13 @@ class ControlView(discord.ui.View):
     async def not_implemented(self, interaction: discord.Interaction):
         return await interaction.response.send_message("Sorry! This option is **not** yet implemented.", ephemeral=True)
 
-    @discord.ui.button(label='💬 Prompt', style=discord.ButtonStyle.green, custom_id='control:prompt')
+    @discord.ui.button(label='💬 Text Prompt', style=discord.ButtonStyle.green, custom_id='control:text_prompt')
     async def prompt_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        return await interaction.response.send_modal(PromptModal())
+        return await interaction.response.send_modal(PromptModal(mode='text'))
+
+    @discord.ui.button(label='🖼️ Image Prompt', style=discord.ButtonStyle.green, custom_id='control:image_prompt')
+    async def prompt_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        return await interaction.response.send_modal(PromptModal(mode='image'))
 
     @discord.ui.button(label='👁️ Hidden Messages', style=discord.ButtonStyle.blurple, custom_id='control:ephemeral_room')
     async def ephemeral_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):

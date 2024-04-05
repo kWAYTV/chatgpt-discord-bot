@@ -6,7 +6,8 @@ from src.database.controller.sessions import SessionsController
 from src.controller.ai.prompt_controller import PromptController
 
 class PromptModal(discord.ui.Modal, title='Send command to host'):
-    def __init__(self):
+    def __init__(self, mode: str = 'text'):
+        self.mode = mode
         self.config = Config()
         self.sessions = SessionsController()
         self.prompt_controller = PromptController.get_instance()
@@ -26,7 +27,10 @@ class PromptModal(discord.ui.Modal, title='Send command to host'):
 
         # Typing indicator context manager.
         async with interaction.channel.typing():
-            response = await self.prompt_controller.send_prompt(self.user_prompt.value)
+            if self.mode == 'text':
+                response = await self.prompt_controller.send_prompt(self.user_prompt.value)
+            if self.mode == 'image':
+                response = await self.prompt_controller.generate_image(self.user_prompt.value)
 
         # Handle the response accordingly.
         if response is None:
