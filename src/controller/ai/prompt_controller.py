@@ -25,8 +25,10 @@ class PromptController:
         nest_asyncio.apply()
 
     async def send_prompt(self, prompt: str) -> str:
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create_async(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
         )
         return response.choices[0].message.content
