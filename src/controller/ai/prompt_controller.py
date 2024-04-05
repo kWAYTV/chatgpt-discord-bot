@@ -1,9 +1,7 @@
 import nest_asyncio
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
-
-from loguru import logger
 from src.helper.config import Config
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 
 
 class PromptController:
