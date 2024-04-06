@@ -91,6 +91,16 @@ class SessionsController:
                 logger.error(f"An error occurred while trying to get recent sessions: {e}")
                 return []
 
+    async def get_session_channels(self) -> List[int]:
+        async with aiosqlite.connect(self.db_path) as db:
+            try:
+                cursor = await db.execute('SELECT discord_channel_id FROM ssh_sessions;')
+                rows = await cursor.fetchall()
+                return [row[0] for row in rows]
+            except Exception as e:
+                logger.error(f"An error occurred while trying to get session channels: {e}")
+                return []
+
     async def get_expired_sessions(self) -> None:
         async with aiosqlite.connect(self.db_path) as db:
             try:

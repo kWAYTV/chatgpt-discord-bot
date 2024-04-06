@@ -37,14 +37,13 @@ class PanelView(discord.ui.View):
 
         # Tag the user in the new channel
         embed_schema = EmbedSchema(
-            title=f"Hey {interaction.user.mention}! Welcome to your room!", 
-            description="*Keep in mind the bot's using a reversed API and it might fail sometimes!*", 
+            description="*Keep in mind the bot's using a reversed API and it might fail sometimes, if that's the case, retry or try later.*", 
             color=0x00ff00
         )
-        embed = EmbedController().build_embed(embed_schema)
+        embed = await EmbedController().build_embed(embed_schema)
 
         # Send the embed with the control view and notify the user in the panel channel to switch to the new channel
-        await channel.send(embed=embed, view=ControlView())
+        await channel.send(content=f"Hey {interaction.user.mention}! Welcome to your room!", embed=embed, view=ControlView())
         return await interaction.response.send_message(f"Your room has been created! You can access it at <#{channel.id}>.", ephemeral=True)
 
     @discord.ui.button(label='🗑️ Delete My Rooms', style=discord.ButtonStyle.red, custom_id='panel:delete_room')

@@ -12,12 +12,10 @@ class ExpiredSessionsLoop(commands.Cog):
 
     @tasks.loop(minutes=30)
     async def del_exp_sessions(self):
-        logger.debug("Checking for expired sessions...")
         try:
             expired_sessions = await self.sessions_controller.get_expired_sessions()
             await self.handle_expired_sessions(expired_sessions)
             await self.sessions_controller.delete_expired_sessions()
-            logger.debug("Expired sessions deleted successfully.")
         except Exception as e:
             logger.error(f"Error processing expired sessions: {e}")
 

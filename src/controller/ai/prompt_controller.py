@@ -4,7 +4,6 @@ from g4f.client import Client
 from src.helper.config import Config
 from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 
-
 class PromptController:
     _instance = None
 
