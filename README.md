@@ -40,18 +40,18 @@ and
 Don't use quotes or double quotes in the values of the configuration file.
 ```yaml
 # [APP]
-app_logo: # String, URL to the app logo
-app_name: # String, Name of the app
-app_url: # String, URL to the app
-app_version: # Number, Version of the app (Example: 1.0.0)
+app_logo: # String, URL to the bot logo (Example: https://example.com/logo.png)
+app_name: # String, Name of the bot (Example: AI Bot)
+app_url: # String, URL to the bot website (Example: https://example.com)
+app_version: # Number, Version of the bot (Example: 1.0.0)
 log_file: # String, Path to the log file (Example: ai_bot.log)
 
 # [BOT]
-bot_prefix: # String, Prefix for the bot
-bot_token: # String, Token of the bot
+bot_prefix: # String, Prefix for the bot commands (Example: .)
+bot_token: # String, Token of the bot (Example: YOUR_BOT_TOKEN)
 chat_category: # Integer, Category ID for the chat channels to be created
-dev_guild_id: # Integer, Guild ID for the development guild
-additional_hide_roles: [] # List, List of roles to hide the created channels from
+dev_guild_id: # Integer, Guild ID for the development guild (Example: YOUR_GUILD_ID)
+additional_hide_roles: [] # List, List of roles to hide the created channels from (Example: [ROLE_ID_1, ROLE_ID_2])
 ```
 
 ## To-Do
