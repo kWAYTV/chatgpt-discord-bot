@@ -15,7 +15,7 @@ class PanelView(discord.ui.View):
     async def not_implemented(self, interaction: discord.Interaction):
         return await interaction.response.send_message("Sorry! This option is **not** yet implemented.", ephemeral=True)
 
-    @discord.ui.button(label='➕ Create Room', style=discord.ButtonStyle.green, custom_id='panel:create_room')
+    @discord.ui.button(label='➕ Create New Room', style=discord.ButtonStyle.green, custom_id='panel:create_room')
     async def create_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         # Check if the user already has a session
         session = await self.sessions.get_session(interaction.user.id)
@@ -47,7 +47,7 @@ class PanelView(discord.ui.View):
         await channel.send(embed=embed, view=ControlView())
         return await interaction.response.send_message(f"Your room has been created! You can access it at <#{channel.id}>.", ephemeral=True)
 
-    @discord.ui.button(label='🗑️ Delete Rooms', style=discord.ButtonStyle.red, custom_id='panel:delete_room')
+    @discord.ui.button(label='🗑️ Delete My Rooms', style=discord.ButtonStyle.red, custom_id='panel:delete_room')
     async def delete_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         # Check if the user has a session
         session = await self.sessions.get_session(interaction.user.id)
