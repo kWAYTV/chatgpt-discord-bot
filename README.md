@@ -1,8 +1,8 @@
-# AI Bot
+# Welcome!
  > ChatGPT Discord bot, easily integrate AI into your server!
 
 ## Table of contents
-- [AI Bot](#ai-bot)
+- [Welcome!](#welcome)
   - [Table of contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Installation](#installation)
