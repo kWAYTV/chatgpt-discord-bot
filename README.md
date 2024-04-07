@@ -54,6 +54,9 @@ bot_token: # String, Token of the bot (Example: YOUR_BOT_TOKEN)
 chat_category: # Integer, Category ID for the chat channels to be created (Example: YOUR_CATEGORY_ID)
 dev_guild_id: # Integer, Guild ID for the development guild (Example: YOUR_GUILD_ID)
 additional_hide_roles: [] # List, List of roles to hide the created channels from (Example: [ROLE_ID_1, ROLE_ID_2])
+
+# [GPT]
+providers: # List, List of GPT providers (Example: [Phind, FreeChatgpt, Liaobots, You])
 ```
 
 ## To-Do

@@ -6,7 +6,6 @@ from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, You
 
 class PromptController:
     _instance = None
-    _my_providers = [Phind, FreeChatgpt, Liaobots, You]
 
     @classmethod
     def get_instance(cls):
@@ -26,7 +25,7 @@ class PromptController:
         # Initialize the GPT client with or without a proxy
         proxy_url = self._get_proxy_url() if not self.config.proxyless else None
         self.client = Client(
-            provider=RetryProvider(self._my_providers, shuffle=False), 
+            provider=RetryProvider(self.config.providers, shuffle=False), 
             proxies=proxy_url
         )
 

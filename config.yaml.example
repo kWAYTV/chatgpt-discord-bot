@@ -12,3 +12,6 @@ bot_token:
 chat_category: 
 dev_guild_id: 
 additional_hide_roles: []
+
+# [GPT]
+providers: 
