@@ -2,7 +2,7 @@ import nest_asyncio
 from loguru import logger
 from g4f.client import Client
 from src.helper.config import Config
-from g4f.Provider import RetryProvider, __providers__, Phind, FreeChatgpt, Liaobots, You
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, You
 
 class PromptController:
     _instance = None
@@ -24,7 +24,7 @@ class PromptController:
 
         # Initialize the Client with the proxy
         self.client = Client(
-            provider=RetryProvider(__providers__, shuffle=True),
+            provider=RetryProvider(self._my_providers, shuffle=False),
             proxies=f"https://{proxy}"
         )
         nest_asyncio.apply()
@@ -36,6 +36,7 @@ class PromptController:
                 messages=[
                     {"role": "user", "content": prompt}
                 ],
+                timeout=10,
             )
             return response.choices[0].message.content
         except Exception as e:

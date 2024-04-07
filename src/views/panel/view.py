@@ -22,7 +22,7 @@ class PanelView(discord.ui.View):
         if session is not None:
             return await interaction.response.send_message(f"You already have a room! You can access it at <#{session.discord_channel_id}>.", ephemeral=True)
 
-        chat_category = self.config.chat_category or interaction.channel.category
+        chat_category = interaction.guild.get_channel(self.config.chat_category) or interaction.channel.category
 
         # Create a new private channel
         channel = await interaction.guild.create_text_channel(f"room-{uuid.uuid4()}", category=chat_category)
