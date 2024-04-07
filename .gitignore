@@ -153,5 +153,5 @@ cython_debug/
 *.sqlite
 
 # Bot files
-data/
+/data
 config.yaml
