@@ -22,11 +22,12 @@
 python -m pip install -r requirements.txt
 ```
 3. Fill the `config.yaml` file with your the needed details, see [Configuration](#configuration) for more information.
-4. Run the bot with the following command:
+4. Insert your proxies (if you want to use them) in `data/input/proxies.txt`. (Format: `username:password@ip:port`)
+5. Run the bot with the following command:
 ```bash
 python main.py
 ```
-5. Invite the bot to your server & sync the commands with the 2 following commands:
+1. Invite the bot to your server & sync the commands with the 2 following commands:
 ```
 .sync
 ```
@@ -34,7 +35,7 @@ and
 ```
 .sync YOUR_GUILD_ID
 ```
-6. Enjoy!
+1. Enjoy!
 
 ## Configuration
 Don't use quotes or double quotes in the values of the configuration file.

@@ -37,6 +37,10 @@ class Config:
         self.dev_guild_id: discord.Object = discord.Object(int(self.config["dev_guild_id"]))
         self.additional_hide_roles: list = self.config["additional_hide_roles"]
 
+        # Proxy
+        self.proxies = self._load_proxies()
+        self.proxyless: bool = len(self.proxies) == 0
+
     # Function to change a value in config.yaml
     def change_value(self, key, value):
         try:
@@ -50,8 +54,15 @@ class Config:
             logger.critical(f"Failed to change value in config.yaml: {e}")
             return False
 
-    # Function to get a random proxy from the proxies file
+    def _load_proxies(self):
+        """Loads proxies from a file, returning a list of proxies or an empty list if file is not found or empty."""
+        try:
+            with open(self.proxies_file, 'r') as file:
+                return [line.strip() for line in file if line.strip()]
+        except FileNotFoundError:
+            logger.warning(f"Proxy file {self.proxies_file} not found.")
+            return []
+
     def get_proxy(self):
-        with open(self.proxies_file, "r") as file:
-            proxies = file.readlines()
-        return random.choice(proxies).strip()
+        """Returns a random proxy from the loaded list or None if proxyless."""
+        return random.choice(self.proxies) if self.proxies else None
