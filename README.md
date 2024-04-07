@@ -7,7 +7,6 @@
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Configuration](#configuration)
-  - [To-Do](#to-do)
   - [License](#license)
   - [Contributing](#contributing)
 
@@ -55,10 +54,6 @@ chat_category: # Integer, Category ID for the chat channels to be created (Examp
 dev_guild_id: # Integer, Guild ID for the development guild (Example: YOUR_GUILD_ID)
 additional_hide_roles: [] # List, List of roles to hide the created channels from (Example: [ROLE_ID_1, ROLE_ID_2])
 ```
-
-## To-Do
-- [x] Keep conversation context between room messages
-- [x] Make the bot listen to room messages instead of pressing prompt button
 
 ## License
 This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details.
