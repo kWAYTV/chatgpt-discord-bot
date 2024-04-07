@@ -1,4 +1,4 @@
-import aiosqlite
+import aiosqlite, gzip, base64
 from loguru import logger
 from typing import List, Optional
 from src.helper.config import Config
@@ -17,6 +17,16 @@ class SessionsController:
                     owner_id INTEGER NOT NULL,
                     discord_channel_id INTEGER NOT NULL,
                     last_used TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+            ''')
+            await db.execute('''
+                CREATE TABLE IF NOT EXISTS chat_messages (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    session_id INTEGER,
+                    message_role TEXT,
+                    message_content TEXT,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (session_id) REFERENCES ssh_sessions(id)
                 );
             ''')
             await db.commit()
@@ -123,3 +133,35 @@ class SessionsController:
             except Exception as e:
                 logger.error(f"An error occurred while trying to delete expired sessions: {e}")
                 await db.rollback()
+
+    async def add_message(self, session_id: int, message_role: str, message_content: str) -> None:
+        compressed_content = self._compress_message(message_content)
+        async with aiosqlite.connect(self.db_path) as db:
+            try:
+                await db.execute('''
+                    INSERT INTO chat_messages (session_id, message_role, message_content)
+                    VALUES (?, ?, ?);
+                ''', (session_id, message_role, compressed_content))
+                await db.commit()
+            except Exception as e:
+                logger.error(f"Error adding message: {e}")
+                await db.rollback()
+
+    async def get_chat_history(self, session_id: int) -> List[dict]:
+        async with aiosqlite.connect(self.db_path) as db:
+            try:
+                cursor = await db.execute('''
+                    SELECT message_role, message_content FROM chat_messages
+                    WHERE session_id = ? ORDER BY timestamp;
+                ''', (session_id,))
+                rows = await cursor.fetchall()
+                return [{"role": row[0], "content": self._decompress_message(row[1])} for row in rows]
+            except Exception as e:
+                logger.error(f"Error retrieving chat history: {e}")
+                return []
+
+    def _compress_message(self, message: str) -> str:
+        return base64.b64encode(gzip.compress(message.encode())).decode()
+
+    def _decompress_message(self, compressed_message: str) -> str:
+        return gzip.decompress(base64.b64decode(compressed_message)).decode()

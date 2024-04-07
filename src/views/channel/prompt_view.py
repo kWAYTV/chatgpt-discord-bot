@@ -21,9 +21,14 @@ class PromptModal(discord.ui.Modal, title='Add room prompt'):
             # Send the initial response message.
             message = await interaction.followup.send('Please wait for an answer from the model...')
 
+            fetch_session = await self.sessions_controller.get_session(message.author.id)
+            session_id = fetch_session.id if fetch_session is not None else None
+            if session_id is None:
+                return await message.edit(content='You do not have an active session. Please start a session first.')
+
             # Typing indicator context manager.
             async with interaction.channel.typing():
-                response = await self.prompt_controller.send_prompt(self.user_prompt.value)
+                response = await self.prompt_controller.send_prompt(session_id, self.user_prompt.value)
 
             # Handle the response accordingly.
             if response is None:

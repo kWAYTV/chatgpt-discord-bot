@@ -20,10 +20,17 @@ class OnMessage(commands.Cog):
         session_channels = await self.sessions_controller.get_session_channels()
 
         if message.channel.id in session_channels:
-            logger.info(f"Message sent in session channel: {message.content} ({message.channel.id})")
             try:
+
+                # Get the message author's session
+                fetch_session = await self.sessions_controller.get_session(message.author.id)
+                session_id = fetch_session.id if fetch_session is not None else None
+                if session_id is None:
+                    await message.channel.send('You do not have an active session. Please start a session first.')
+                    return
+
                 # Sending prompt to AI model
-                response = await self.prompt_controller.send_prompt(message.content)
+                response = await self.prompt_controller.send_prompt(session_id, message.content)
                 if response is None:
                     await message.channel.send('The model failed to respond. Please try again either now or later.')
                     return
