@@ -1,4 +1,4 @@
-import discord, yaml
+import discord, yaml, random
 from loguru import logger
 from yaml import SafeLoader
 
@@ -28,6 +28,7 @@ class Config:
         self.app_name_branded: str = f"{self.app_name} • {self.app_url}"
         self.app_version: str = self.config["app_version"]
         self.log_file = self.config["log_file"]
+        self.proxies_file = self.config["proxies_file"]
 
         # Discord bot
         self.bot_prefix: str = self.config["bot_prefix"]
@@ -48,3 +49,9 @@ class Config:
         except Exception as e:
             logger.critical(f"Failed to change value in config.yaml: {e}")
             return False
+
+    # Function to get a random proxy from the proxies file
+    def get_proxy(self):
+        with open(self.proxies_file, "r") as file:
+            proxies = file.readlines()
+        return random.choice(proxies).strip()

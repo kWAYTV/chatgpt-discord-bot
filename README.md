@@ -45,6 +45,7 @@ app_name: # String, Name of the bot (Example: AI Bot)
 app_url: # String, URL to the bot website (Example: https://example.com)
 app_version: # Number, Version of the bot (Example: 1.0.0)
 log_file: # String, Path to the log file (Example: ai_bot.log)
+proxies_file: # String, Path to the proxies file (Example: data/proxies.txt)
 
 # [BOT]
 bot_prefix: # String, Prefix for the bot commands (Example: .)

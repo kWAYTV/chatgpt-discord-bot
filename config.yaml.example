@@ -4,6 +4,7 @@ app_name:
 app_url: 
 app_version: 
 log_file: 
+proxies_file: 
 
 # [BOT]
 bot_prefix: 
