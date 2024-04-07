@@ -57,7 +57,7 @@ additional_hide_roles: [] # List, List of roles to hide the created channels fro
 ```
 
 ## To-Do
-- [ ] Keep conversation context between room messages
+- [x] Keep conversation context between room messages
 - [x] Make the bot listen to room messages instead of pressing prompt button
 
 ## License

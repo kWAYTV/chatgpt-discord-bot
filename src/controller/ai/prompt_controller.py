@@ -35,6 +35,11 @@ class PromptController:
         proxy = self.config.get_proxy()
         return f"http://{proxy}"
 
+    def _rotate_proxy(self):
+        """Rotates the proxy used by the GPT client."""
+        proxy_url = self._get_proxy_url()
+        self.client.proxies = proxy_url
+
     async def send_prompt(self, session_id: int, user_input: str) -> str:
         """Sends a prompt to the GPT model and saves the interaction in the database."""
         try:
@@ -57,5 +62,6 @@ class PromptController:
             return response_content
 
         except Exception as e:
+            self._rotate_proxy()
             logger.error(f'Error in sending prompt: {e}')
             return 'The model failed to respond. Please try again later.'
