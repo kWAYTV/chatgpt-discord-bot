@@ -37,9 +37,6 @@ class Config:
         self.dev_guild_id: discord.Object = discord.Object(int(self.config["dev_guild_id"]))
         self.additional_hide_roles: list = self.config["additional_hide_roles"]
 
-        # GPT
-        self.providers: list = self.config["providers"]
-
         # Proxy
         self.proxies = self._load_proxies()
         self.proxyless: bool = len(self.proxies) == 0
