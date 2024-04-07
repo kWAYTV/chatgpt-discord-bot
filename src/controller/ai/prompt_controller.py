@@ -28,7 +28,6 @@ class PromptController:
     def _get_proxy_url(self) -> str:
         """Retrieves a proxy URL from the configuration, logs it, and returns the formatted proxy URL."""
         proxy = self.config.get_proxy()
-        logger.debug(f'Using proxy: {proxy}')
         return f"http://{proxy}"
 
     async def send_prompt(self, prompt: str) -> str:

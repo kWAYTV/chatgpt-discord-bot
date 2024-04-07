@@ -20,7 +20,7 @@ class OnMessage(commands.Cog):
         session_channels = await self.sessions_controller.get_session_channels()
 
         if message.channel.id in session_channels:
-            logger.info(f"Message sent in session channel: {message.content}({message.channel.id})")
+            logger.info(f"Message sent in session channel: {message.content} ({message.channel.id})")
             try:
                 # Sending prompt to AI model
                 response = await self.prompt_controller.send_prompt(message.content)
