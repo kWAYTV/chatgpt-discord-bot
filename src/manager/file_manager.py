@@ -2,7 +2,8 @@ import os
 from loguru import logger
 from src.helper.config import Config
 
-defaultConfig = """
+# Default configuration template
+DEFAULT_CONFIG = """
 # [APP]
 app_logo: 
 app_name: 
@@ -22,25 +23,45 @@ api_endpoint:
 """
 
 class FileManager:
+    """
+    A class responsible for managing file and directory operations
+    required for the application's configuration and data storage.
+    """
 
     def __init__(self):
+        """
+        Initializes the FileManager and sets up a configuration object.
+        """
         self.config = Config()
 
-    # Function to check if the input files are valid
     def check_input(self):
-        # if there is no config file, create one.
+        """
+        Validates and sets up necessary files and directories.
+        Creates a default configuration file if it does not exist.
+        Ensures the presence of essential data and database directories.
+        """
+        # Check for config file and create if not found
         if not os.path.isfile("config.yaml"):
-            logger.info("Config file not found, creating one...")
-            open("config.yaml", "w+").write(defaultConfig)
-            logger.debug("Successfully created config.yml, please fill it out and try again.")
-            exit()
+            logger.info("Config file not found. Creating a default configuration file...")
+            with open("config.yaml", "w+") as config_file:
+                config_file.write(DEFAULT_CONFIG)
+            logger.info("A default config.yml has been created. Please configure it before proceeding.")
+            return
 
-        # If the folder "/data" doesn't exist, create it.
-        if not os.path.exists("data"):
-            os.makedirs("data")
-            logger.debug("Data folder not found, creating one...")
+        # Create the database directory
+        self._create_directory("src/database")
 
-        # If the folder "/src/database" doesn't exist, create it.
-        if not os.path.exists("src/database"):
-            os.makedirs("src/database")
-            logger.debug("Database folder not found, creating one...")
+        # Create the data directories
+        self._create_directory("data/logs")
+        self._create_directory("data/input")
+
+    def _create_directory(self, path):
+        """
+        Creates a directory along with any necessary parent directories.
+
+        Args:
+            path (str): The directory path to create.
+        """
+        if not os.path.exists(path):
+            os.makedirs(path, exist_ok=True)
+            logger.debug(f"{path} directory created.")

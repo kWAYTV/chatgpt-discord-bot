@@ -1,5 +1,4 @@
 import nest_asyncio
-import random
 from loguru import logger
 from g4f.client import Client
 from src.helper.config import Config
@@ -25,7 +24,7 @@ class PromptController:
 
         # Initialize the Client with the proxy
         self.client = Client(
-            provider=RetryProvider([__providers__], shuffle=True),
+            provider=RetryProvider(__providers__, shuffle=True),
             proxies=f"https://{proxy}"
         )
         nest_asyncio.apply()
