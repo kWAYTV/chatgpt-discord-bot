@@ -12,7 +12,7 @@
   - [Contributing](#contributing)
 
 ## Features
-- [x] AI Chat
+- [x] AI Chat right in your Discord server
 - [x] Free API
 - [x] Private Sessions
 - [x] Proxied/Proxyless Support
