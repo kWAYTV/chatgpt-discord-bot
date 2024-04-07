@@ -4,11 +4,20 @@
 ## Table of contents
 - [Welcome!](#welcome)
   - [Table of contents](#table-of-contents)
+  - [Features](#features)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Configuration](#configuration)
   - [License](#license)
   - [Contributing](#contributing)
+
+## Features
+- [x] AI Chat
+- [x] Free API
+- [x] Private Sessions
+- [x] Proxied/Proxyless Support
+- [x] Saves Conversation Context
+- [x] Clean Code
 
 ## Requirements
 - Discord Bot
