@@ -23,7 +23,10 @@ class PromptController:
         proxy_url = self._get_proxy_url() if not self.config.proxyless else None
 
         # Initialize the GPT client with or without a proxy
-        self.client = Client(provider=RetryProvider(self._my_providers, shuffle=False), proxies=proxy_url)
+        self.client = Client(
+            provider=RetryProvider(self._my_providers, shuffle=False), 
+            proxies=proxy_url
+        )
 
     def _get_proxy_url(self) -> str:
         """Retrieves a proxy URL from the configuration, logs it, and returns the formatted proxy URL."""
