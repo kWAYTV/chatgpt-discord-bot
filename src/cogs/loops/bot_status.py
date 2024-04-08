@@ -21,4 +21,4 @@ class StatusLoop(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(StatusLoop(bot))
-    return logger.info("Status loop loaded!")
+    return logger.debug("Status loop loaded!")

@@ -42,4 +42,4 @@ class Panel(commands.Cog):
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Panel(bot))
-    logger.info("Panel command loaded!")
+    logger.debug("Panel command loaded!")

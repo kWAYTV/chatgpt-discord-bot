@@ -33,4 +33,4 @@ class OnReady(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(OnReady(bot))
-    return logger.info("On ready event registered!")
+    return logger.debug("On ready event registered!")

@@ -38,4 +38,4 @@ class SyncCommand(commands.Cog):
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(SyncCommand(bot))
-    logger.info("Sync command loaded!")
+    logger.debug("Sync command loaded!")

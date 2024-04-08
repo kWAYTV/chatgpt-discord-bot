@@ -28,4 +28,4 @@ class GuildJoin(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(GuildJoin(bot))
-    return logger.info("On guild join event registered!")
+    return logger.debug("On guild join event registered!")

@@ -11,4 +11,4 @@ class GuildRemove(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(GuildRemove(bot))
-    return logger.info("On guild leave event registered!")
+    return logger.debug("On guild leave event registered!")

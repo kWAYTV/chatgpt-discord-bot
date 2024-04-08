@@ -34,26 +34,32 @@ class FileManager:
         """
         self.config = Config()
 
-    def check_input(self):
+    def check_input(self) -> bool:
         """
         Validates and sets up necessary files and directories.
         Creates a default configuration file if it does not exist.
         Ensures the presence of essential data and database directories.
         """
         # Check for config file and create if not found
-        if not os.path.isfile("config.yaml"):
-            logger.info("Config file not found. Creating a default configuration file...")
-            with open("config.yaml", "w+") as config_file:
-                config_file.write(DEFAULT_CONFIG)
-            logger.info("A default config.yml has been created. Please configure it before proceeding.")
-            return
+        try:
+            if not os.path.isfile("config.yaml"):
+                logger.info("Config file not found. Creating a default configuration file...")
+                with open("config.yaml", "w+") as config_file:
+                    config_file.write(DEFAULT_CONFIG)
+                logger.info("A default config.yml has been created. Please configure it before proceeding.")
+                return False
 
-        # Create the database directory
-        self._create_directory("src/database")
+            # Create the database directory
+            self._create_directory("src/database")
 
-        # Create the data directories
-        self._create_directory("data/logs")
-        self._create_directory("data/input")
+            # Create the data directories
+            self._create_directory("data/logs")
+            self._create_directory("data/input")
+
+            return True
+        except Exception as e:
+            logger.error(f"An error occurred while checking for file inputs: {e}")
+            return False
 
     def _create_directory(self, path):
         """

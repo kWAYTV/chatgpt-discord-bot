@@ -10,12 +10,14 @@ class DatabaseLoader:
     def __init__(self) -> None:
         self.sessions_controller = SessionsController()
 
-    async def setup(self) -> None:
+    async def setup(self) -> bool:
         """
         Sets up the database by creating the necessary table.
         """
         try:
             await self.sessions_controller.create_table()
+            return True
         except Exception as e:
             logger.critical(f"Error setting up database(s): {e}")
             traceback.print_exc()
+            return False

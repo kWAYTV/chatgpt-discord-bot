@@ -35,7 +35,7 @@ class Config:
         """Updates instance attributes from the config dictionary."""
 
         # [STATIC]
-        self.rainbow_line_gif = "https://i.imgur.com/mnydyND.gif"
+        self.rainbow_line_gif: str = "https://i.imgur.com/mnydyND.gif"
 
         # [APP]
         self.app_logo: str = self.config["app_logo"]
@@ -43,8 +43,8 @@ class Config:
         self.app_name: str = self.config["app_name"]
         self.app_name_branded: str = f"{self.app_name} • {self.app_url}"
         self.app_version: str = self.config["app_version"]
-        self.log_file = self.config["log_file"]
-        self.proxies_file = self.config["proxies_file"]
+        self.log_file: str = self.config["log_file"]
+        self.proxies_file: str = self.config["proxies_file"]
 
         # [BOT]
         self.bot_prefix: str = self.config["bot_prefix"]

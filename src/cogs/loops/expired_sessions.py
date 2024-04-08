@@ -54,4 +54,4 @@ class ExpiredSessionsLoop(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(ExpiredSessionsLoop(bot))
-    logger.info("Expired Sessions loop loaded!")
+    logger.debug("Expired Sessions loop loaded!")

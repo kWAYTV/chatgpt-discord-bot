@@ -48,4 +48,4 @@ class OnMessage(commands.Cog):
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(OnMessage(bot))
-    return logger.info("On message event registered!")
+    return logger.debug("On message event registered!")
