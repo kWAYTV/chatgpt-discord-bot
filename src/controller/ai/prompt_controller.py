@@ -21,7 +21,7 @@ class PromptController:
             raise ValueError("An instance of PromptController already exists.")
 
         self.config = Config()
-        self.sessions_controller = SessionsController()
+        self.sessions_controller = SessionsController().get_instance()
 
         # Initialize the GPT client with or without a proxy
         proxy_url = self._get_proxy_url() if not self.config.proxyless else None

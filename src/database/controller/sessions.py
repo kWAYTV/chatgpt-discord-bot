@@ -5,7 +5,19 @@ from src.helper.config import Config
 from src.database.schema.sessions import SessionSchema
 
 class SessionsController:
+    _instance = None
+
+    @classmethod
+    def get_instance(cls):
+        """Singleton pattern implementation to ensure only one instance exists."""
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance
+
     def __init__(self):
+        if self._instance is not None:
+            raise ValueError("An instance of PromptController already exists.")
+
         self.config = Config()
         self.db_path = 'src/database/storage/sessions.sqlite'
 

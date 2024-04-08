@@ -8,7 +8,7 @@ from src.controller.ai.prompt_controller import PromptController
 class PromptModal(discord.ui.Modal, title='Add room prompt'):
     def __init__(self):
         self.config = Config()
-        self.sessions = SessionsController()
+        self.sessions = SessionsController().get_instance()
         self.prompt_controller = PromptController.get_instance()
         super().__init__()
 

@@ -9,7 +9,7 @@ from src.controller.discord.embed_controller import EmbedController
 class PanelView(discord.ui.View):
     def __init__(self):
         self.config = Config()
-        self.sessions = SessionsController()
+        self.sessions = SessionsController().get_instance()
         super().__init__(timeout=None)
 
     async def not_implemented(self, interaction: discord.Interaction):
