@@ -13,14 +13,35 @@ logger.add(Config().log_file, mode="w+")
 # Define the bot & load the commands, events and loops
 class Bot(commands.Bot):
     def __init__(self) -> None:
-        self.start_time = time.time()
-        super().__init__(command_prefix=Config().bot_prefix, help_command=None, intents=discord.Intents.all())
+        """
+        Initializes the Bot class.
 
-    # Function to load the extensions
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        self.start_time = time.time()
+        super().__init__(
+            command_prefix=Config().bot_prefix, 
+            help_command=None, 
+            intents=discord.Intents.all()
+        )
+
     async def setup_hook(self) -> None:
+        """
+        Loads the necessary extensions, sets up the database, and initializes the bot.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         try:
             os.system("cls||clear")
-            logger.info(f"Setting up bot...")
+            logger.info("Setting up bot...")
 
             # Check for file inputs
             logger.debug("Checking for file inputs...")
@@ -49,13 +70,21 @@ class Bot(commands.Bot):
                     await self.load_extension(f"src.cogs.loops.{filename[:-3]}")
 
             # Done!
-            logger.info(f"Setup completed!")
+            logger.info("Setup completed!")
         except Exception:
             logger.critical(f"Error setting up bot: {format_exc()}")
             exit()
 
-    # Function to shutdown the bot
     async def close(self) -> None:
+        """
+        Shuts down the bot.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         await super().close()
 
 # Run the bot
