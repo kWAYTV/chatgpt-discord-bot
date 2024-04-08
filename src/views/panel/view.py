@@ -1,4 +1,5 @@
 import discord, uuid
+from loguru import logger
 from src.helper.config import Config
 from src.views.channel.control_view import ControlView
 from src.database.schema.sessions import SessionSchema
@@ -50,6 +51,7 @@ class PanelView(discord.ui.View):
             return await interaction.response.send_message(f"Your room has been created! You can access it at <#{channel.id}>.", ephemeral=True)
 
         except Exception as e:
+            logger.error(f"Failed to create a new room: {e}")
             return await interaction.response.send_message(f"Failed to create your room, if you don't see any, press the delete my rooms button and try again.", ephemeral=True)
 
     @discord.ui.button(label='🗑️ Delete My Rooms', style=discord.ButtonStyle.red, custom_id='panel:delete_room')
