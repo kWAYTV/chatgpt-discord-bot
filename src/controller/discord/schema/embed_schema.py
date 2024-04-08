@@ -1,7 +1,31 @@
 # EmbedSchema.py
 class EmbedSchema:
+    """
+    Represents an embed schema for Discord messages.
+
+    Args:
+        title (str): The title of the embed.
+        description (str): The description of the embed.
+        fields (list): A list of fields in the embed.
+        color (int): The color of the embed.
+        thumbnail_url (str): The URL of the thumbnail image.
+        image_url (str): The URL of the main image.
+        footer_text (str): The text in the footer of the embed.
+        author_url (str): The URL of the author's profile.
+
+    Attributes:
+        title (str): The title of the embed.
+        description (str): The description of the embed.
+        fields (list): A list of fields in the embed.
+        color (int): The color of the embed.
+        thumbnail_url (str): The URL of the thumbnail image.
+        image_url (str): The URL of the main image.
+        footer_text (str): The text in the footer of the embed.
+        author_url (str): The URL of the author's profile.
+    """
+
     def __init__(self, title=None, description=None, fields=None, color=0xb34760,
-                    thumbnail_url=None, image_url=None, footer_text=None, author_url=None):
+                 thumbnail_url=None, image_url=None, footer_text=None, author_url=None):
         self.title = title
         self.description = description
         self.fields = fields if fields is not None else []

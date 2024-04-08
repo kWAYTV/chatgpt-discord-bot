@@ -9,12 +9,25 @@ from pystyle import Colors, Colorate, Center
 from src.views.channel.control_view import ControlView
 
 class OnReady(commands.Cog):
+    """
+    A Discord cog that handles the on_ready event.
+
+    Attributes:
+        bot (discord.ext.commands.Bot): The bot instance.
+        config (Config): The configuration object.
+    """
+
     def __init__(self, bot):
         self.bot = bot
         self.config = Config()
 
     @commands.Cog.listener()
     async def on_ready(self):
+        """
+        A coroutine that is called when the bot is ready.
+
+        It clears the console, prints a logo, sets persistent views, and logs the login information.
+        """
 
         os.system("cls||clear")
 

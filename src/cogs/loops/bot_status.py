@@ -4,6 +4,9 @@ from discord.ext import commands, tasks
 from src.helper.status import BotStatus as Status
 
 class StatusLoop(commands.Cog):
+    """
+    A class representing a loop for changing the bot's status periodically.
+    """
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot

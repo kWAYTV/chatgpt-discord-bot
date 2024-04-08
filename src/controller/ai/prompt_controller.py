@@ -5,6 +5,10 @@ from src.database.controller.sessions import SessionsController
 from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, You
 
 class PromptController:
+    """
+    The PromptController class handles sending prompts to the GPT model and managing chat history.
+    """
+
     _instance = None
     _my_providers = [Phind, FreeChatgpt, Liaobots, You]
 

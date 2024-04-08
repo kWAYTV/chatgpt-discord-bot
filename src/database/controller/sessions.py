@@ -5,6 +5,9 @@ from src.helper.config import Config
 from src.database.schema.sessions import SessionSchema
 
 class SessionsController:
+    """
+    Controller class for managing sessions in the database.
+    """
     _instance = None
 
     def __new__(cls):

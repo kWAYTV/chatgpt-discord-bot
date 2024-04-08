@@ -6,6 +6,12 @@ from src.controller.discord.schema.embed_schema import EmbedSchema
 from src.controller.discord.embed_controller import EmbedController
 
 class Ping(commands.Cog):
+    """
+    A class representing the Ping command cog.
+
+    This cog provides functionality to test the bot's latency.
+    """
+
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 

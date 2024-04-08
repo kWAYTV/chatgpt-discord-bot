@@ -3,6 +3,31 @@ from loguru import logger
 from yaml import SafeLoader, YAMLError
 
 class Config:
+    """
+    Singleton class for managing configuration settings.
+
+    Attributes:
+        rainbow_line_gif (str): URL of the rainbow line GIF.
+        app_logo (str): Logo of the application.
+        app_url (str): URL of the application.
+        app_name (str): Name of the application.
+        app_name_branded (str): Branded name of the application.
+        app_version (str): Version of the application.
+        log_file (str): Path to the log file.
+        proxies_file (str): Path to the file containing proxies.
+        bot_prefix (str): Prefix for the Discord bot commands.
+        bot_token (str): Token for the Discord bot.
+        chat_category (int): ID of the Discord category for chat channels.
+        dev_guild_id (discord.Object): ID of the development guild.
+        additional_hide_roles (list): List of additional roles to hide chat channels from.
+
+    Methods:
+        reload(): Reloads the configuration from the YAML file.
+        get_proxy(): Returns a random proxy from the list or None if proxyless.
+        change_value(key, value): Changes the value of a configuration setting and saves it to the YAML file.
+
+    """
+
     _instance = None
 
     def __new__(cls):
@@ -54,6 +79,13 @@ class Config:
         self.additional_hide_roles: list = self.config["additional_hide_roles"]
 
     def reload(self):
+        """
+        Reloads the configuration from the YAML file.
+
+        Returns:
+            bool: True if the configuration was successfully reloaded, False otherwise.
+
+        """
         try:
             self._load_config()
             if self.config:
@@ -70,7 +102,13 @@ class Config:
             return False
 
     def _load_proxies(self):
-        """Loads proxies from a file, returning a list or an empty list if file is not found or empty."""
+        """
+        Loads proxies from a file, returning a list or an empty list if file is not found or empty.
+
+        Returns:
+            list: List of proxies.
+
+        """
         try:
             with open(self.proxies_file, 'r') as file:
                 return [line.strip() for line in file if line.strip()]
@@ -82,16 +120,33 @@ class Config:
             return []
 
     def get_proxy(self):
-        """Returns a random proxy from the list or None if proxyless."""
+        """
+        Returns a random proxy from the list or None if proxyless.
+
+        Returns:
+            str or None: Random proxy or None.
+
+        """
         return random.choice(self.proxies) if self.proxies else None
 
     def change_value(self, key, value):
+        """
+        Changes the value of a configuration setting and saves it to the YAML file.
+
+        Args:
+            key (str): The key of the configuration setting.
+            value: The new value of the configuration setting.
+
+        Returns:
+            bool: True if the value was successfully changed and saved, False otherwise.
+
+        """
         try:
             config = self._load_config()
             config[key] = value
             with open("config.yaml", "w") as file:
                 yaml.dump(config, file)
-            self._update_attributes() # Update in-memory config to reflect changes
+            self._update_attributes()  # Update in-memory config to reflect changes
             logger.info(f"Changed value in config.yaml: {key} -> {value}, the file was rewritten.")
             return True
         except Exception as e:

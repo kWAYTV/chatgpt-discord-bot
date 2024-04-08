@@ -4,6 +4,20 @@ from discord.ext import commands, tasks
 from src.database.controller.sessions import SessionsController
 
 class ExpiredSessionsLoop(commands.Cog):
+    """
+    A Discord bot cog that handles expired sessions.
+
+    This cog periodically checks for expired sessions, deletes the corresponding Discord channels,
+    and notifies the users about their expired sessions.
+    """
+
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
+        self.sessions_controller = SessionsController()
+        self.del_exp_sessions.start()
+
+    # Rest of the code...
+class ExpiredSessionsLoop(commands.Cog):
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot

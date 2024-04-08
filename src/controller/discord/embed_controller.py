@@ -7,6 +7,14 @@ from src.controller.discord.schema.embed_schema import EmbedSchema
 class EmbedController:
     """
     A class that handles the creation of Discord embeds.
+
+    Attributes:
+        _instance (EmbedController): The singleton instance of the EmbedController class.
+
+    Methods:
+        __new__(): Creates a new instance of the EmbedController class if it doesn't already exist.
+        __init__(): Initializes the EmbedController instance and sets up the configuration.
+        build_embed(embed_schema: EmbedSchema) -> discord.Embed: Builds and returns a Discord embed based on the provided schema.
     """
     _instance = None
 
@@ -21,6 +29,18 @@ class EmbedController:
             self.config = Config()
 
     async def build_embed(self, embed_schema: EmbedSchema) -> discord.Embed:
+        """
+        Builds and returns a Discord embed based on the provided schema.
+
+        Args:
+            embed_schema (EmbedSchema): The schema containing the details of the embed.
+
+        Returns:
+            discord.Embed: The built Discord embed.
+
+        Raises:
+            Exception: If there is an error while building the embed.
+        """
         try:
             embed = discord.Embed(
                 title=embed_schema.title,

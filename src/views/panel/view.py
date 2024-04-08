@@ -8,6 +8,11 @@ from src.controller.discord.schema.embed_schema import EmbedSchema
 from src.controller.discord.embed_controller import EmbedController
 
 class PanelView(discord.ui.View):
+    """
+    Represents the panel view for the Discord bot.
+    This view allows users to create and delete rooms.
+    """
+
     def __init__(self):
         self.config = Config()
         self.sessions = SessionsController()

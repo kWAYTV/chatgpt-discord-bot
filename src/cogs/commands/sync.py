@@ -4,6 +4,14 @@ from discord.ext import commands
 from src.helper.config import Config
 
 class SyncCommand(commands.Cog):
+    """
+    A Discord bot command cog for syncing slash commands.
+
+    Attributes:
+        bot (commands.Bot): The Discord bot instance.
+        config (Config): The configuration object.
+    """
+
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.config = Config()
@@ -11,6 +19,13 @@ class SyncCommand(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def sync(self, ctx: commands.Context, guild: discord.Guild = None):
+        """
+        Syncs slash commands globally or for a specific guild.
+
+        Args:
+            ctx (commands.Context): The command context.
+            guild (discord.Guild, optional): The guild to sync slash commands for. Defaults to None.
+        """
         try:
             await ctx.message.delete()
         except:

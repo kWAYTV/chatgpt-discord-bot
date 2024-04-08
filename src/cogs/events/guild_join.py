@@ -2,12 +2,21 @@ from loguru import logger
 from discord.ext import commands
 
 class GuildJoin(commands.Cog):
+    """
+    A class representing the event handler for when the bot joins a guild.
+    """
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
+        """
+        A coroutine that is called when the bot joins a guild.
+
+        Parameters:
+            guild (discord.Guild): The guild that the bot joined.
+        """
 
         try:
             # Sync the commands

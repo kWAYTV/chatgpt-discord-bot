@@ -6,6 +6,15 @@ from src.database.controller.sessions import SessionsController
 from src.controller.ai.prompt_controller import PromptController
 
 class OnMessage(commands.Cog):
+    """
+    A Discord event listener cog that handles the `on_message` event.
+
+    Attributes:
+        bot (discord.ext.commands.Bot): The Discord bot instance.
+        sessions_controller (SessionsController): The controller for managing user sessions.
+        prompt_controller (PromptController): The controller for sending prompts to the AI model.
+    """
+
     def __init__(self, bot):
         self.bot = bot
         self.sessions_controller = SessionsController()
@@ -13,6 +22,15 @@ class OnMessage(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
+        """
+        Event handler for the `on_message` event.
+
+        Args:
+            message (discord.Message): The message object representing the received message.
+
+        Returns:
+            None
+        """
         # Ignore messages sent by the bot
         if message.author == self.bot.user:
             return
@@ -21,7 +39,6 @@ class OnMessage(commands.Cog):
 
         if message.channel.id in session_channels:
             try:
-
                 # Get the message author's session
                 fetch_session = await self.sessions_controller.get_session(message.author.id)
                 session_id = fetch_session.id if fetch_session is not None else None

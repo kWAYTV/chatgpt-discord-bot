@@ -6,6 +6,19 @@ from src.database.controller.sessions import SessionsController
 from src.controller.ai.prompt_controller import PromptController
 
 class PromptModal(discord.ui.Modal, title='Add room prompt'):
+    """
+    A modal for adding a prompt to the model.
+
+    Attributes:
+    - config: An instance of the Config class.
+    - sessions: An instance of the SessionsController class.
+    - prompt_controller: An instance of the PromptController class.
+    - user_prompt: A TextInput component for entering the prompt.
+
+    Methods:
+    - on_submit: Handles the submission of the prompt.
+    - on_error: Handles any errors that occur during the interaction.
+    """
     def __init__(self):
         self.config = Config()
         self.sessions = SessionsController()

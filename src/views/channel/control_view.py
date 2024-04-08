@@ -4,6 +4,12 @@ from src.views.channel.prompt_view import PromptModal
 from src.database.controller.sessions import SessionsController
 
 class ControlView(discord.ui.View):
+    """
+    A view class for controlling the chat room.
+
+    This class extends the discord.ui.View class and provides methods and buttons for controlling the chat room.
+    """
+
     def __init__(self):
         self.prompt_modal = PromptModal()
         self.sessions = SessionsController()
