@@ -8,56 +8,38 @@ class EmbedController:
     """
     A class that handles the creation of Discord embeds.
     """
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
 
     def __init__(self):
-        self.config = Config()
-    
+        if not self._initialized:
+            self.config = Config()
+
     async def build_embed(self, embed_schema: EmbedSchema) -> discord.Embed:
-        """
-        Builds a Discord embed based on the provided embed schema.
-        """
         try:
-            schema = embed_schema.get_schema()
             embed = discord.Embed(
-                title=schema["title"],
-                description=schema["description"],
-                color=schema["color"]
+                title=embed_schema.title,
+                description=embed_schema.description,
+                color=embed_schema.color
             )
 
-            # Add fields to embed
-            if schema.get("fields") is not None:
-                for field in schema.get("fields", []):
-                    if field.get("value") is not None:
-                        embed.add_field(
-                            name=field["name"],
-                            value=field["value"],
-                            inline=field.get("inline", False)
-                        )
+            for field in embed_schema.fields:
+                embed.add_field(name=field['name'], value=field['value'], inline=field.get('inline', True))
 
-            # Set default properties
-            self.set_defaults(embed, schema)
-
-            # Set timestamp
+            embed.set_author(name=self.config.app_name, icon_url=self.config.app_logo, url=self.config.app_url)
+            embed.set_footer(text=embed_schema.footer_text or self.config.app_name, icon_url=self.config.app_logo)
+            embed.set_thumbnail(url=embed_schema.thumbnail_url or self.config.app_logo)
+            if embed_schema.image_url:
+                embed.set_image(url=embed_schema.image_url)
             embed.timestamp = datetime.utcnow()
+
             return embed
 
         except Exception as e:
             logger.error(f"Failed to build embed: {e}")
             return discord.Embed(title="Error", description="Failed to build embed")
-
-    def set_defaults(self, embed: discord.Embed, schema: dict):
-        """
-        Sets default values for various properties of the embed.
-        """
-        author_name = schema.get('author_name', self.config.app_name)
-        author_icon_url = schema.get('author_icon_url', self.config.app_logo)
-        author_url = schema.get('author_url', self.config.app_url)
-        footer_text = schema.get('footer_text', self.config.app_name)
-        footer_icon_url = schema.get('footer_icon_url', self.config.app_logo)
-        image_url = schema.get('image_url', '')
-        thumbnail_url = schema.get('thumbnail_url', self.config.app_logo)
-
-        embed.set_author(name=author_name, icon_url=author_icon_url, url=author_url)
-        embed.set_footer(text=footer_text, icon_url=footer_icon_url)
-        embed.set_thumbnail(url=thumbnail_url)
-        embed.set_image(url=image_url)

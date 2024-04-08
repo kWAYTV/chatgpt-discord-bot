@@ -1,26 +1,17 @@
+# EmbedSchema.py
 class EmbedSchema:
-    def __init__(self, title: str = None, description: str = None, fields: list = None, color: int = 0xb34760, thumbnail_url: str = None, image_url: str = None, footer_text: str = None, author_url: str = None) -> None:
+    def __init__(self, title=None, description=None, fields=None, color=0xb34760,
+                    thumbnail_url=None, image_url=None, footer_text=None, author_url=None):
         self.title = title
         self.description = description
-        self.fields = fields
+        self.fields = fields if fields is not None else []
         self.color = color
-        self.image_url = image_url
         self.thumbnail_url = thumbnail_url
+        self.image_url = image_url
         self.footer_text = footer_text
         self.author_url = author_url
 
-    def __repr__(self) -> str:
-        return f"<EmbedSchema title={self.title} description={self.description} fields={self.fields} color={self.color}> thumbnail_url={self.thumbnail_url} image_url={self.image_url} footer_text={self.footer_text}"
-
-    def get_schema(self) -> dict:
-        schema = {
-            "title": self.title,
-            "description": self.description,
-            "fields": self.fields,
-            "color": self.color,
-            "image_url": self.image_url,
-            "thumbnail_url": self.thumbnail_url,
-            "footer_text": self.footer_text,
-            "author_url": self.author_url,
-        }
-        return schema
+    def __repr__(self):
+        return (f"<EmbedSchema title={self.title} description={self.description} "
+                f"fields={self.fields} color={self.color} thumbnail_url={self.thumbnail_url} "
+                f"image_url={self.image_url} footer_text={self.footer_text}>")
