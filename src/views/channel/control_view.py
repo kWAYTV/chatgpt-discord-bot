@@ -5,6 +5,7 @@ from src.database.controller.sessions import SessionsController
 
 class ControlView(discord.ui.View):
     def __init__(self):
+        self.prompt_modal = PromptModal()
         self.sessions = SessionsController()
         super().__init__(timeout=None)
 
@@ -13,7 +14,7 @@ class ControlView(discord.ui.View):
 
     @discord.ui.button(label='💬 Text Prompt', style=discord.ButtonStyle.green, custom_id='control:text_prompt')
     async def prompt_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        return await interaction.response.send_modal(PromptModal())
+        return await interaction.response.send_modal(self.prompt_modal)
 
     @discord.ui.button(label='🗑️ Delete Room', style=discord.ButtonStyle.red, custom_id='control:delete_room')
     async def delete_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):
