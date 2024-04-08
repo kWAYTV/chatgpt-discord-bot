@@ -8,7 +8,7 @@ class DatabaseLoader:
     """
 
     def __init__(self) -> None:
-        self.sessions_controller = SessionsController().get_instance()
+        self.sessions_controller = SessionsController()
 
     async def setup(self) -> None:
         """

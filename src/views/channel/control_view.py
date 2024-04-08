@@ -6,7 +6,7 @@ from src.database.controller.sessions import SessionsController
 class ControlView(discord.ui.View):
     def __init__(self):
         self.prompt_modal = PromptModal()
-        self.sessions = SessionsController().get_instance()
+        self.sessions = SessionsController()
         super().__init__(timeout=None)
 
     async def not_implemented(self, interaction: discord.Interaction):

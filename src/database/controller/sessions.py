@@ -7,19 +7,16 @@ from src.database.schema.sessions import SessionSchema
 class SessionsController:
     _instance = None
 
-    @classmethod
-    def get_instance(cls):
-        """Singleton pattern implementation to ensure only one instance exists."""
+    def __new__(cls):
         if cls._instance is None:
-            cls._instance = cls()
+            cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
-        if self._instance is not None:
-            raise ValueError("An instance of PromptController already exists.")
-
-        self.config = Config()
-        self.db_path = 'src/database/storage/sessions.sqlite'
+        if not self._initialized:
+            self.config = Config()
+            self.db_path = 'src/database/storage/sessions.sqlite'
 
     async def create_table(self) -> None:
         async with aiosqlite.connect(self.db_path) as db:

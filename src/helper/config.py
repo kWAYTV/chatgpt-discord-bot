@@ -1,27 +1,43 @@
 import discord, yaml, random
 from loguru import logger
-from yaml import SafeLoader
+from yaml import SafeLoader, YAMLError
 
 class Config:
     _instance = None
 
-    @classmethod
-    def get_instance(cls):
+    def __new__(cls):
         if cls._instance is None:
-            cls._instance = cls()
+            cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
-        if self._instance is not None:
-            raise ValueError("An instance of Config already exists. Use Config.get_instance() to get that instance.")
+        if not self._initialized:
+            self._initialized = True
+            self._load_config()
+            self._update_attributes()
+            self.proxies = self._load_proxies()
+            self.proxyless = len(self.proxies) == 0
 
-        with open("config.yaml", "r") as file:
-            self.config = yaml.load(file, Loader=SafeLoader)
+    def _load_config(self):
+        """Loads configuration from the YAML file."""
+        try:
+            with open("config.yaml", "r") as file:
+                self.config = yaml.load(file, Loader=SafeLoader)
+        except FileNotFoundError:
+            logger.error("Config file not found.")
+            self.config = {}
+        except YAMLError as e:
+            logger.error(f"Error parsing config file: {e}")
+            self.config = {}
 
-        # Rainbow line gif
-        self.rainbow_line_gif: str = "https://i.imgur.com/mnydyND.gif"
+    def _update_attributes(self):
+        """Updates instance attributes from the config dictionary."""
 
-        # App info
+        # [STATIC]
+        self.rainbow_line_gif = "https://i.imgur.com/mnydyND.gif"
+
+        # [APP]
         self.app_logo: str = self.config["app_logo"]
         self.app_url: str = self.config["app_url"]
         self.app_name: str = self.config["app_name"]
@@ -30,39 +46,54 @@ class Config:
         self.log_file = self.config["log_file"]
         self.proxies_file = self.config["proxies_file"]
 
-        # Discord bot
+        # [BOT]
         self.bot_prefix: str = self.config["bot_prefix"]
         self.bot_token: str = self.config["bot_token"]
         self.chat_category: int = int(self.config["chat_category"])
         self.dev_guild_id: discord.Object = discord.Object(int(self.config["dev_guild_id"]))
         self.additional_hide_roles: list = self.config["additional_hide_roles"]
 
-        # Proxy
-        self.proxies = self._load_proxies()
-        self.proxyless: bool = len(self.proxies) == 0
-
-    # Function to change a value in config.yaml
-    def change_value(self, key, value):
+    def reload(self):
         try:
-            with open("config.yaml", "r") as file:
-                config = yaml.load(file, Loader=SafeLoader)
-            config[key] = value
-            with open("config.yaml", "w") as file:
-                yaml.dump(config, file)
-            return logger.info(f"Changed value in config.yaml: {key} -> {value}, the file was rewritten.")
+            self._load_config()
+            if self.config:
+                self._update_attributes()
+                self.proxies = self._load_proxies()
+                self.proxyless = len(self.proxies) == 0
+                logger.info("Successfully reloaded config.yaml file.")
+                return True
+            else:
+                logger.warning("Failed to reload the config file.")
+                return False
         except Exception as e:
-            logger.critical(f"Failed to change value in config.yaml: {e}")
+            logger.critical(f"Failed to reload config.yaml: {e}")
             return False
 
     def _load_proxies(self):
-        """Loads proxies from a file, returning a list of proxies or an empty list if file is not found or empty."""
+        """Loads proxies from a file, returning a list or an empty list if file is not found or empty."""
         try:
             with open(self.proxies_file, 'r') as file:
                 return [line.strip() for line in file if line.strip()]
         except FileNotFoundError:
             logger.warning(f"Proxy file {self.proxies_file} not found.")
             return []
+        except Exception as e:
+            logger.error(f"Error loading proxies: {e}")
+            return []
 
     def get_proxy(self):
-        """Returns a random proxy from the loaded list or None if proxyless."""
+        """Returns a random proxy from the list or None if proxyless."""
         return random.choice(self.proxies) if self.proxies else None
+
+    def change_value(self, key, value):
+        try:
+            config = self._load_config()
+            config[key] = value
+            with open("config.yaml", "w") as file:
+                yaml.dump(config, file)
+            self._update_attributes() # Update in-memory config to reflect changes
+            logger.info(f"Changed value in config.yaml: {key} -> {value}, the file was rewritten.")
+            return True
+        except Exception as e:
+            logger.critical(f"Failed to change value in config.yaml: {e}")
+            return False

@@ -7,7 +7,7 @@ class ExpiredSessionsLoop(commands.Cog):
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.sessions_controller = SessionsController().get_instance()
+        self.sessions_controller = SessionsController()
         self.del_exp_sessions.start()
 
     @tasks.loop(minutes=30)

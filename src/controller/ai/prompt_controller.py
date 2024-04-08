@@ -8,27 +8,24 @@ class PromptController:
     _instance = None
     _my_providers = [Phind, FreeChatgpt, Liaobots, You]
 
-    @classmethod
-    def get_instance(cls):
-        """Singleton pattern implementation to ensure only one instance exists."""
+    def __new__(cls):
         if cls._instance is None:
-            cls._instance = cls()
+            cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
         """Initializes the PromptController, sets up the GPT client with or without proxy."""
-        if self._instance is not None:
-            raise ValueError("An instance of PromptController already exists.")
+        if not self._initialized:
+            self.config = Config()
+            self.sessions_controller = SessionsController()
 
-        self.config = Config()
-        self.sessions_controller = SessionsController().get_instance()
-
-        # Initialize the GPT client with or without a proxy
-        proxy_url = self._get_proxy_url() if not self.config.proxyless else None
-        self.client = Client(
-            provider=RetryProvider(self._my_providers, shuffle=False), 
-            proxies=proxy_url
-        )
+            # Initialize the GPT client with or without a proxy
+            proxy_url = self._get_proxy_url() if not self.config.proxyless else None
+            self.client = Client(
+                provider=RetryProvider(self._my_providers, shuffle=False), 
+                proxies=proxy_url
+            )
 
     def _get_proxy_url(self) -> str:
         """Retrieves a proxy URL from the configuration, logs it, and returns the formatted proxy URL."""

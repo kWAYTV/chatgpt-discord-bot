@@ -9,7 +9,7 @@ from src.controller.discord.embed_controller import EmbedController
 class PanelView(discord.ui.View):
     def __init__(self):
         self.config = Config()
-        self.sessions = SessionsController().get_instance()
+        self.sessions = SessionsController()
         super().__init__(timeout=None)
 
     async def not_implemented(self, interaction: discord.Interaction):
@@ -17,36 +17,40 @@ class PanelView(discord.ui.View):
 
     @discord.ui.button(label='➕ Create New Room', style=discord.ButtonStyle.green, custom_id='panel:create_room')
     async def create_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # Check if the user already has a session
-        session = await self.sessions.get_session(interaction.user.id)
-        if session is not None:
-            return await interaction.response.send_message(f"You already have a room! You can access it at <#{session.discord_channel_id}>.", ephemeral=True)
+        try:
+            # Check if the user already has a session
+            session = await self.sessions.get_session(interaction.user.id)
+            if session is not None:
+                return await interaction.response.send_message(f"You already have a room! You can access it at <#{session.discord_channel_id}>.", ephemeral=True)
 
-        chat_category = interaction.guild.get_channel(self.config.chat_category) or interaction.channel.category
+            chat_category = interaction.guild.get_channel(self.config.chat_category) or interaction.channel.category
 
-        # Create a new private channel
-        channel = await interaction.guild.create_text_channel(f"room-{uuid.uuid4()}", category=chat_category)
+            # Create a new private channel
+            channel = await interaction.guild.create_text_channel(f"room-{uuid.uuid4()}", category=chat_category)
 
-        await channel.set_permissions(interaction.user, read_messages=True, send_messages=True)
-        await channel.set_permissions(interaction.guild.me, read_messages=True, send_messages=True)
-        await channel.set_permissions(interaction.guild.default_role, read_messages=False)
-        for role_id in self.config.additional_hide_roles:
-            await channel.set_permissions(interaction.guild.get_role(role_id), read_messages=False)
+            await channel.set_permissions(interaction.user, read_messages=True, send_messages=True)
+            await channel.set_permissions(interaction.guild.me, read_messages=True, send_messages=True)
+            await channel.set_permissions(interaction.guild.default_role, read_messages=False)
+            for role_id in self.config.additional_hide_roles:
+                await channel.set_permissions(interaction.guild.get_role(role_id), read_messages=False)
 
-        # Add the session to the database
-        new_session = SessionSchema(owner_id=interaction.user.id, discord_channel_id=channel.id)
-        await self.sessions.create_session(new_session)
+            # Add the session to the database
+            new_session = SessionSchema(owner_id=interaction.user.id, discord_channel_id=channel.id)
+            await self.sessions.create_session(new_session)
 
-        # Tag the user in the new channel
-        embed_schema = EmbedSchema(
-            description="*Keep in mind the bot's using a reversed API and it might fail sometimes, if that's the case, retry or try later.*", 
-            color=0x00ff00
-        )
-        embed = await EmbedController().build_embed(embed_schema)
+            # Tag the user in the new channel
+            embed_schema = EmbedSchema(
+                description="*Keep in mind the bot's using a reversed API and it might fail sometimes, if that's the case, retry or try later.*", 
+                color=0x00ff00
+            )
+            embed = await EmbedController().build_embed(embed_schema)
 
-        # Send the embed with the control view and notify the user in the panel channel to switch to the new channel
-        await channel.send(content=f"Hey {interaction.user.mention}! Welcome to your room!", embed=embed, view=ControlView())
-        return await interaction.response.send_message(f"Your room has been created! You can access it at <#{channel.id}>.", ephemeral=True)
+            # Send the embed with the control view and notify the user in the panel channel to switch to the new channel
+            await channel.send(content=f"Hey {interaction.user.mention}! Welcome to your room!", embed=embed, view=ControlView())
+            return await interaction.response.send_message(f"Your room has been created! You can access it at <#{channel.id}>.", ephemeral=True)
+
+        except Exception as e:
+            return await interaction.response.send_message(f"Failed to create your room, if you don't see any, press the delete my rooms button and try again.", ephemeral=True)
 
     @discord.ui.button(label='🗑️ Delete My Rooms', style=discord.ButtonStyle.red, custom_id='panel:delete_room')
     async def delete_room_button(self, interaction: discord.Interaction, button: discord.ui.Button):

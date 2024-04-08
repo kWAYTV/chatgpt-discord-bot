@@ -8,8 +8,8 @@ from src.controller.ai.prompt_controller import PromptController
 class PromptModal(discord.ui.Modal, title='Add room prompt'):
     def __init__(self):
         self.config = Config()
-        self.sessions = SessionsController().get_instance()
-        self.prompt_controller = PromptController.get_instance()
+        self.sessions = SessionsController()
+        self.prompt_controller = PromptController()
         super().__init__()
 
     user_prompt = discord.ui.TextInput(label='Prompt', style=discord.TextStyle.long, placeholder='Enter the prompt you want to give to the model.')

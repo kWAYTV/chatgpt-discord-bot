@@ -8,8 +8,8 @@ from src.controller.ai.prompt_controller import PromptController
 class OnMessage(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.sessions_controller = SessionsController().get_instance()
-        self.prompt_controller = PromptController.get_instance()
+        self.sessions_controller = SessionsController()
+        self.prompt_controller = PromptController()
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
