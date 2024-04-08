@@ -12,12 +12,11 @@
   - [Contributing](#contributing)
 
 ## Features
-- [x] AI Chat right in your Discord server
+- [x] Clean Code
 - [x] Free API
 - [x] Private Sessions
 - [x] Proxied/Proxyless Support
 - [x] Saves Conversation Context
-- [x] Clean Code
 
 ## Requirements
 - Discord Bot
