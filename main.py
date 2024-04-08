@@ -1,5 +1,5 @@
 # Imports
-import os, discord
+import os, discord, time
 from loguru import logger
 from traceback import format_exc
 from discord.ext import commands
@@ -13,7 +13,7 @@ logger.add(Config().log_file, mode="w+")
 # Define the bot & load the commands, events and loops
 class Bot(commands.Bot):
     def __init__(self) -> None:
-        self.file_manager = FileManager()
+        self.start_time = time.time()
         super().__init__(command_prefix=Config().bot_prefix, help_command=None, intents=discord.Intents.all())
 
     # Function to load the extensions
@@ -24,7 +24,7 @@ class Bot(commands.Bot):
 
             # Check for file inputs
             logger.debug("Checking for file inputs...")
-            self.file_manager.check_input()
+            FileManager().check_input()
 
             # Set-up the database
             logger.debug("Setting up databases...")

@@ -1,4 +1,5 @@
 import os
+from time import time
 from loguru import logger
 from pyfiglet import Figlet
 from discord.ext import commands
@@ -26,8 +27,9 @@ class OnReady(commands.Cog):
         logger.debug("Setting persistent views...")
         self.bot.add_view(PanelView())
         self.bot.add_view(ControlView())
-
-        logger.info(f"Logged in as {self.bot.user.name}#{self.bot.user.discriminator}.")
+        
+        elapsed_time = time() - self.bot.start_time
+        logger.info(f"Logged in as {self.bot.user.name}#{self.bot.user.discriminator} ({elapsed_time:.2f}s)")
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(OnReady(bot))
