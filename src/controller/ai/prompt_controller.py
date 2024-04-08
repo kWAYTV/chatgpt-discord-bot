@@ -1,6 +1,6 @@
 from loguru import logger
 from src.helper.config import Config
-from g4f.client import AsyncClient as Client
+from g4f.client import AsyncClient
 from src.database.controller.sessions import SessionsController
 from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, You
 
@@ -26,7 +26,7 @@ class PromptController:
 
             # Initialize the GPT client with or without a proxy
             proxy_url = self._get_proxy_url() if not self.config.proxyless else None
-            self.client = Client(
+            self.client = AsyncClient(
                 provider=RetryProvider(self._my_providers, shuffle=False), 
                 proxies=proxy_url
             )
