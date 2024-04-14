@@ -22,12 +22,12 @@ class Bot(commands.Bot):
         Returns:
             None
         """
-        self.start_time = time.time()
         super().__init__(
             command_prefix=Config().bot_prefix, 
             help_command=None, 
             intents=discord.Intents.all()
         )
+        self.start_time = time.time()
 
     async def setup_hook(self) -> None:
         """
