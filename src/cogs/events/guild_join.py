@@ -29,7 +29,7 @@ class GuildJoin(commands.Cog):
         try:
             await guild.owner.send(f"Hello `{guild.owner.name}`, your guild `{guild.name}` has successfully synced commands with the bot!")
         except:
-            logger.error(f"❌ Couln't send a DM to the guild owner of {guild.name} ({guild.owner.id}).")
+            logger.error(f"❌ Couldn't send a DM to the guild owner of {guild.name} ({guild.owner.id}).")
             return
         
         # Log the event
