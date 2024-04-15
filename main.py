@@ -13,15 +13,7 @@ logger.add(Config().log_file, mode="w+")
 # Define the bot & load the commands, events and loops
 class Bot(commands.Bot):
     def __init__(self) -> None:
-        """
-        Initializes the Bot class.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
+        """Initializes the Bot class."""
         super().__init__(
             command_prefix=Config().bot_prefix, 
             help_command=None, 
@@ -30,15 +22,7 @@ class Bot(commands.Bot):
         self.start_time = time.time()
 
     async def setup_hook(self) -> None:
-        """
-        Loads the necessary extensions, sets up the database, and initializes the bot.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
+        """Loads the necessary extensions, sets up the database, and initializes the bot."""
         try:
             os.system("cls||clear")
             logger.info("Setting up bot...")
@@ -76,15 +60,7 @@ class Bot(commands.Bot):
             exit()
 
     async def close(self) -> None:
-        """
-        Shuts down the bot.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
+        """Shuts down the bot."""
         await super().close()
 
 # Run the bot
