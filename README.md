@@ -16,7 +16,7 @@
 
 ## Features
 - [x] Free API
-- [x] Docker Support
+- [x] Docker & Local Support
 - [x] Private Sessions
 - [x] Proxied/Proxyless Support
 - [x] Saves Conversation Context
