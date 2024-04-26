@@ -17,7 +17,7 @@ jobs:
       - name: Log in to Harbor
         uses: docker/login-action@v1
         with:
-          registry: harbor.kway.club
+          registry: ${{ secrets.HARBOR_HOST }}
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
 
@@ -30,7 +30,7 @@ jobs:
           context: .
           push: true
           tags: |
-            harbor.kway.club/library/chatgpt-discord-bot:${{ github.run_number }}
-            harbor.kway.club/library/chatgpt-discord-bot:latest
-          cache-from: type=registry,ref=harbor.kway.club/library/chatgpt-discord-bot:cache
+            ${{ secrets.HARBOR_HOST }}/library/chatgpt-discord-bot:${{ github.run_number }}
+            ${{ secrets.HARBOR_HOST }}/library/chatgpt-discord-bot:latest
+          cache-from: type=registry,ref=${{ secrets.HARBOR_HOST }}/library/chatgpt-discord-bot:cache
           cache-to: type=inline
