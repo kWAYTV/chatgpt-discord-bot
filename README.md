@@ -84,6 +84,8 @@ docker-compose up -d
 ```
 This command will pull the latest Docker image of the ChatGPT Discord bot (if not already present) and start the bot in detached mode (`-d`). 
 
+5. Continue the installation by following the [Running the bot](#running-the-bot) section below.
+
 ## Running the bot
 1. Run the following command to start the bot:
 ```bash
