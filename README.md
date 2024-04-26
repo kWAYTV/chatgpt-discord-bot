@@ -100,6 +100,7 @@ and
 ```
 .sync YOUR_GUILD_ID
 ```
+Syncing only needs to be done when the commands are updated/added or the first time the bot is added to the server.
 2. Enjoy!
 
 ## Configuration
