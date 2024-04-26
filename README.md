@@ -25,7 +25,7 @@
 
 ## Requirements
 - Discord Bot
-- Python 3.8 or higher
+- Python 3.8 or higher (3.10+ Recommended)
 
 ## Installation
 
