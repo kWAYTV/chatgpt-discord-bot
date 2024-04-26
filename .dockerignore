@@ -11,3 +11,4 @@
 
 # Ignore Python compiled files
 **/__pycache__/
+**/data/proxies/proxies.txt
