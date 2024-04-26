@@ -7,16 +7,16 @@
   - [Features](#features)
   - [Requirements](#requirements)
   - [Installation](#installation)
-    - [Docker](#docker)
     - [Local](#local)
+    - [Docker](#docker)
   - [Running the bot](#running-the-bot)
   - [Configuration](#configuration)
   - [License](#license)
   - [Contributing](#contributing)
 
 ## Features
-- [x] Docker-Easy Deployment
 - [x] Free API
+- [x] Docker Support
 - [x] Private Sessions
 - [x] Proxied/Proxyless Support
 - [x] Saves Conversation Context
@@ -26,6 +26,21 @@
 - Python 3.8 or higher
 
 ## Installation
+
+### Local
+
+1. Clone this repository to your local machine:
+```bash
+git clone https://github.com/kWAYTV/chatgpt-discord-bot.git
+cd chatgpt-discord-bot
+```
+
+2. Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+3. Create and fill a `.env` file in the project directory. See the [Configuration](#configuration) section below for more details.
+4. Continue the installation by following the [Running the bot](#running-the-bot) section below.
 
 ### Docker
 
@@ -62,24 +77,12 @@ services:
     restart: always  # Ensures the bot restarts if it crashes
 ```
 3. Customize the environment variables in the `docker-compose.yml` file according to your requirements. See the [Configuration](#configuration) section below for more details.
+
 4. Run the following command to start the bot:
 ```bash
 docker-compose up -d
 ```
 This command will pull the latest Docker image of the ChatGPT Discord bot (if not already present) and start the bot in detached mode (`-d`). 
-
-### Local
-
-1. Clone this repository to your local machine:
-```bash
-git clone https://github.com/kWAYTV/chatgpt-discord-bot.git
-cd chatgpt-discord-bot
-```
-
-2. Install the required Python packages:
-```bash
-pip install -r requirements.txt
-```
 
 ## Running the bot
 1. Run the following command to start the bot:
@@ -95,8 +98,6 @@ and
 .sync YOUR_GUILD_ID
 ```
 2. Enjoy!
-
-3. Create and fill a `.env` file in the project directory. See the [Configuration](#configuration) section below for more details.
 
 ## Configuration
 Don't use quotes or double quotes in the values of the environment variables. All the values are required unless specified otherwise.
