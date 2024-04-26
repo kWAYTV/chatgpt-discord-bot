@@ -154,4 +154,4 @@ cython_debug/
 
 # Bot files
 /data
-config.yaml
+docker-compose.yml

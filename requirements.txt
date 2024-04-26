@@ -1,7 +1,7 @@
 aiosqlite==0.20.0
-discord.py==2.3.2
-g4f==0.2.8.2
+g4f==0.3.0.6
 loguru==0.6.0
-pyfiglet==0.8.post1
+pyfiglet==1.0.2
 pystyle==2.9
-PyYAML==6.0.1
+python-dotenv==1.0.1
+discord==2.3.2

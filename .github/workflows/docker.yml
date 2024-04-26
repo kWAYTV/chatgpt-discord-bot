@@ -1,0 +1,29 @@
+name: Harbor - Docker Image CI/CD
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Log in to Docker Registry
+      uses: docker/login-action@v1
+      with:
+        registry: harbor.kway.club
+        username: ${{ secrets.HARBOR_USERNAME }}
+        password: ${{ secrets.HARBOR_PASSWORD }}
+    
+    - name: Build Docker Image
+      run: |
+        docker build -t harbor.kway.club/library/chatgpt-discord-bot:latest .
+
+    - name: Push Docker Image
+      run: |
+        docker push harbor.kway.club/library/chatgpt-discord-bot:latest

@@ -1,6 +1,6 @@
-import discord, yaml, random
+import os, discord, random
 from loguru import logger
-from yaml import SafeLoader, YAMLError
+from dotenv import load_dotenv
 
 class Config:
     """
@@ -39,52 +39,63 @@ class Config:
     def __init__(self):
         if not self._initialized:
             self._initialized = True
+            self._load_env()
             self._load_config()
             self._update_attributes()
             self.proxies = self._load_proxies()
             self.proxyless = len(self.proxies) == 0
 
+    def _load_env(self):
+        """Loads environment variables from .env file."""
+        load_dotenv()
+
     def _load_config(self):
-        """Loads configuration from the YAML file."""
+        """Loads configuration from environment variables."""
         try:
-            with open("config.yaml", "r") as file:
-                self.config = yaml.load(file, Loader=SafeLoader)
-        except FileNotFoundError:
-            logger.error("Config file not found.")
-            self.config = {}
-        except YAMLError as e:
-            logger.error(f"Error parsing config file: {e}")
+            self.config = {
+                "app_logo": os.getenv("APP_LOGO"),
+                "app_url": os.getenv("APP_URL"),
+                "app_name": os.getenv("APP_NAME"),
+                "app_version": os.getenv("APP_VERSION"),
+                "log_file": os.getenv("LOG_FILE"),
+                "proxies_file": os.getenv("PROXIES_FILE"),
+                "bot_prefix": os.getenv("BOT_PREFIX"),
+                "bot_token": os.getenv("BOT_TOKEN"),
+                "chat_category": os.getenv("CHAT_CATEGORY"),
+                "dev_guild_id": os.getenv("DEV_GUILD_ID"),
+                "additional_hide_roles": os.getenv("ADDITIONAL_HIDE_ROLES", "").split(","),
+            }
+        except Exception as e:
+            logger.error(f"Error loading configuration from environment variables: {e}")
             self.config = {}
 
     def _update_attributes(self):
         """Updates instance attributes from the config dictionary."""
-
         # [STATIC]
         self.rainbow_line_gif: str = "https://i.imgur.com/mnydyND.gif"
 
         # [APP]
-        self.app_logo: str = self.config["app_logo"]
-        self.app_url: str = self.config["app_url"]
-        self.app_name: str = self.config["app_name"]
+        self.app_logo: str = self.config.get("app_logo", "")
+        self.app_url: str = self.config.get("app_url", "")
+        self.app_name: str = self.config.get("app_name", "")
         self.app_name_branded: str = f"{self.app_name} • {self.app_url}"
-        self.app_version: str = self.config["app_version"]
-        self.log_file: str = self.config["log_file"]
-        self.proxies_file: str = self.config["proxies_file"]
+        self.app_version: str = self.config.get("app_version", "")
+        self.log_file: str = self.config.get("log_file", "")
+        self.proxies_file: str = self.config.get("proxies_file", "")
 
         # [BOT]
-        self.bot_prefix: str = self.config["bot_prefix"]
-        self.bot_token: str = self.config["bot_token"]
-        self.chat_category: int = int(self.config["chat_category"])
-        self.dev_guild_id: discord.Object = discord.Object(int(self.config["dev_guild_id"]))
-        self.additional_hide_roles: list = self.config["additional_hide_roles"]
+        self.bot_prefix: str = self.config.get("bot_prefix", "")
+        self.bot_token: str = self.config.get("bot_token", "")
+        self.chat_category: int = int(self.config.get("chat_category", 0))
+        self.dev_guild_id: discord.Object = discord.Object(int(self.config.get("dev_guild_id", 0)))
+        self.additional_hide_roles: list = self.config.get("additional_hide_roles", [])
 
     def reload(self):
         """
-        Reloads the configuration from the YAML file.
+        Reloads the configuration from the environment variables.
 
         Returns:
             bool: True if the configuration was successfully reloaded, False otherwise.
-
         """
         try:
             self._load_config()
@@ -92,13 +103,13 @@ class Config:
                 self._update_attributes()
                 self.proxies = self._load_proxies()
                 self.proxyless = len(self.proxies) == 0
-                logger.info("Successfully reloaded config.yaml file.")
+                logger.info("Successfully reloaded configuration from environment variables.")
                 return True
             else:
-                logger.warning("Failed to reload the config file.")
+                logger.warning("Failed to reload configuration.")
                 return False
         except Exception as e:
-            logger.critical(f"Failed to reload config.yaml: {e}")
+            logger.critical(f"Failed to reload configuration: {e}")
             return False
 
     def _load_proxies(self):
@@ -107,7 +118,6 @@ class Config:
 
         Returns:
             list: List of proxies.
-
         """
         try:
             with open(self.proxies_file, 'r') as file:
@@ -125,13 +135,12 @@ class Config:
 
         Returns:
             str or None: Random proxy or None.
-
         """
         return random.choice(self.proxies) if self.proxies else None
 
     def change_value(self, key, value):
         """
-        Changes the value of a configuration setting and saves it to the YAML file.
+        Changes the value of a configuration setting and saves it to the environment variables.
 
         Args:
             key (str): The key of the configuration setting.
@@ -139,16 +148,11 @@ class Config:
 
         Returns:
             bool: True if the value was successfully changed and saved, False otherwise.
-
         """
         try:
-            config = self._load_config()
-            config[key] = value
-            with open("config.yaml", "w") as file:
-                yaml.dump(config, file)
-            self._update_attributes()  # Update in-memory config to reflect changes
-            logger.info(f"Changed value in config.yaml: {key} -> {value}, the file was rewritten.")
+            os.environ[key] = str(value)
+            logger.info(f"Changed value in environment variables: {key} -> {value}")
             return True
         except Exception as e:
-            logger.critical(f"Failed to change value in config.yaml: {e}")
+            logger.critical(f"Failed to change value in environment variables: {e}")
             return False

@@ -1,0 +1,13 @@
+# Ignore version control directories
+.git/
+
+# Ignore all log and text files
+*.log
+*.md
+
+# Ignore specific configuration files
+.env
+*.yaml
+
+# Ignore Python compiled files
+**/__pycache__/

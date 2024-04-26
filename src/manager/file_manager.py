@@ -4,22 +4,18 @@ from src.helper.config import Config
 
 # Default configuration template
 DEFAULT_CONFIG = """
-# [APP]
-app_logo: 
-app_name: 
-app_url: 
-app_version: 
-log_file: 
+APP_LOGO=
+APP_NAME=
+APP_URL=
+APP_VERSION=
+LOG_FILE=
+PROXIES_FILE=
 
-# [BOT]
-bot_prefix: 
-bot_token: 
-chat_category: 
-dev_guild_id: 
-logs_channel: 
-
-# [AI]
-api_endpoint: 
+BOT_PREFIX=
+BOT_TOKEN=
+CHAT_CATEGORY=
+DEV_GUILD_ID=
+ADDITIONAL_HIDE_ROLES=
 """
 
 class FileManager:
@@ -42,19 +38,17 @@ class FileManager:
         """
         # Check for config file and create if not found
         try:
-            if not os.path.isfile("config.yaml"):
-                logger.info("Config file not found. Creating a default configuration file...")
-                with open("config.yaml", "w+") as config_file:
-                    config_file.write(DEFAULT_CONFIG)
-                logger.info("A default config.yml has been created. Please configure it before proceeding.")
-                return False
+            # Create the data directories
+            self._create_directory("data/logs")
+            self._create_directory("data/proxies")
 
             # Create the database directory
             self._create_directory("src/database")
 
-            # Create the data directories
-            self._create_directory("data/logs")
-            self._create_directory("data/input")
+            if not os.path.isfile(".env"):
+                with open(".env", "w") as f:
+                    f.write(DEFAULT_CONFIG)
+                    logger.debug(".env configuration file created.")
 
             return True
         except Exception as e:
