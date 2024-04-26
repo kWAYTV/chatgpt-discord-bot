@@ -11,6 +11,7 @@
     - [Docker](#docker)
   - [Running the bot](#running-the-bot)
   - [Configuration](#configuration)
+  - [TODO](#todo)
   - [License](#license)
   - [Contributing](#contributing)
   - [Thanks to xtekky for the wrapper!](#thanks-to-xtekky-for-the-wrapper)
@@ -146,6 +147,11 @@ DEV_GUILD_ID=
 # List, List of roles to hide the created channels from (Example: [ROLE_ID_1, ROLE_ID_2])
 ADDITIONAL_HIDE_ROLES=
 ```
+
+## TODO
+- [ ] Optimize the code & docker deployment
+- [ ] Add image generation support
+- [ ] Add more customization options
 
 ## License
 This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details.
