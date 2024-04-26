@@ -13,6 +13,7 @@
   - [Configuration](#configuration)
   - [License](#license)
   - [Contributing](#contributing)
+  - [Thanks to xtekky for the wrapper!](#thanks-to-xtekky-for-the-wrapper)
 
 ## Features
 - [x] Free API
@@ -150,3 +151,5 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE) file
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Thanks to [xtekky](https://github.com/xtekky) for the wrapper!
