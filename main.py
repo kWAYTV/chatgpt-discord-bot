@@ -7,9 +7,6 @@ from src.helper.config import Config
 from src.database.loader import DatabaseLoader
 from src.manager.file_manager import FileManager
 
-# Set logging system handler
-logger.add(Config().log_file, mode="w+")
-
 class Bot(commands.Bot):
     def __init__(self) -> None:
         """Initializes the Bot class."""
@@ -19,6 +16,19 @@ class Bot(commands.Bot):
             intents=discord.Intents.all()
         )
         self.start_time = time.time()
+
+        # Ensure log file directory exists
+        log_file = Config().log_file
+        log_directory = os.path.dirname(log_file)
+        
+        if not os.path.exists(log_directory):
+            os.makedirs(log_directory, exist_ok=True)
+
+        if not os.path.exists(log_file):
+            with open(log_file, 'w') as f:
+                pass  # Create the log file if it doesn't exist
+        
+        logger.add(log_file, mode="w+")
 
     async def setup_hook(self) -> None:
         """Loads the necessary things, and initializes the bot."""
