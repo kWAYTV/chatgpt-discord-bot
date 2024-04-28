@@ -40,11 +40,11 @@ class PanelView(discord.ui.View):
 
         # Hide additional roles if specified in the config
         for role_id in self.config.additional_hide_roles:
+            print(role_id)
             role = interaction.guild.get_role(role_id)
-            if not role:
+            if not role: 
                 return logger.warning(f"Role ID {role_id} not found in guild.")
-            else:
-                await channel.set_permissions(role, read_messages=False)
+            else: await channel.set_permissions(role, read_messages=False)
 
         # Add the session to the database
         new_session = SessionSchema(owner_id=interaction.user.id, discord_channel_id=channel.id)
