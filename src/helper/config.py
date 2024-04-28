@@ -63,11 +63,21 @@ class Config:
                 "bot_token": os.getenv("BOT_TOKEN"),
                 "chat_category": os.getenv("CHAT_CATEGORY"),
                 "dev_guild_id": os.getenv("DEV_GUILD_ID"),
-                "additional_hide_roles": os.getenv("ADDITIONAL_HIDE_ROLES", "").split(","),
+                "additional_hide_roles": self._parse_role_ids(os.getenv("ADDITIONAL_HIDE_ROLES", ""))
             }
         except Exception as e:
             logger.error(f"Error loading configuration from environment variables: {e}")
             self.config = {}
+
+    def _parse_role_ids(self, role_ids_str):
+        """Parses a comma-separated string of role IDs into a list of integers."""
+        role_ids = []
+        if role_ids_str:
+            try:
+                role_ids = [int(id.strip()) for id in role_ids_str.split(",") if id.strip()]
+            except ValueError as e:
+                logger.error(f"Error parsing role IDs: {role_ids_str} -> {e}")
+        return role_ids
 
     def _update_attributes(self):
         """Updates instance attributes from the config dictionary."""

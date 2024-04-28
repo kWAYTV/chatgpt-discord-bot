@@ -41,7 +41,7 @@ cd chatgpt-discord-bot
 ```bash
 pip install -r requirements.txt
 ```
-3. Create and fill a `.env` file in the project directory. See the [Configuration](#configuration) section below for more details.
+3. Create and fill a `.env` file within the project directory. See the [Configuration](#configuration) section below for more details.
 4. Continue the installation by following the [Running the bot](#running-the-bot) section below.
 
 ### Docker
@@ -56,28 +56,17 @@ cd chatgpt-discord-bot
 
 2. Create a `docker-compose.yml` file in the project directory with the following content:
 ```yaml
-version: '3.9'
-
 services:
   chatgpt-discord-bot:
     image: harbor.kway.club/library/chatgpt-discord-bot:latest
     container_name: chatgpt-discord-bot
     volumes:
-      - DATA_PATH:/app/data  # Mount the data directory if needed at runtime
-    environment:
-      - APP_LOGO=
-      - APP_URL=
-      - APP_NAME=
-      - APP_VERSION=
-      - LOG_FILE=
-      - PROXIES_FILE=
-      - BOT_PREFIX=
-      - BOT_TOKEN=
-      - CHAT_CATEGORY=
-      - DEV_GUILD_ID=
-      - ADDITIONAL_HIDE_ROLES=
-    restart: always  # Ensures the bot restarts if it crashes
+      - ./data:/app/data
+    env_file:
+      - .env
+    restart: always
 ```
+*Remember that if you use `Portainer`, you can import your .env file and change `.env` to `stack.env`*
 3. Customize the environment variables in the `docker-compose.yml` file according to your requirements. See the [Configuration](#configuration) section below for more details.
 
 4. Run the following command to start the bot:
