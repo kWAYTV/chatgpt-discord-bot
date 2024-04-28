@@ -40,7 +40,6 @@ class PanelView(discord.ui.View):
 
         # Hide additional roles if specified in the config
         for role_id in self.config.additional_hide_roles:
-            print(role_id)
             role = interaction.guild.get_role(role_id)
             if not role: 
                 return logger.warning(f"Role ID {role_id} not found in guild.")
