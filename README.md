@@ -67,8 +67,8 @@ services:
     restart: always
 ```
 *Remember that if you use `Portainer`, you can import your .env file and change `.env` to `stack.env`*
-3. Customize the environment variables in the `docker-compose.yml` file according to your requirements. See the [Configuration](#configuration) section below for more details.
 
+3. Customize the environment variables in the `docker-compose.yml` file according to your requirements. See the [Configuration](#configuration) section below for more details.
 4. Run the following command to start the bot:
 ```bash
 docker-compose up -d
